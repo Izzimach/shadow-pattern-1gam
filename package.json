@@ -1,0 +1,28 @@
+{
+  "author": "Gary Haussmann",
+  "name": "ShadowPattern",
+  "description": "A simple roguelike game",
+  "version": "0.0.1",
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Izzimach/shadow-pattern-1gam"
+  },
+  "engines": {
+    "node": "~0.6.10 || 0.8 || 0.9"
+  },
+  "scripts": {
+    "start": "brunch watch --server"
+  },
+  "dependencies": {
+    "javascript-brunch": ">= 1.0 < 1.5",
+    "coffee-script-brunch": ">= 1.0 <= 1.3",
+
+    "css-brunch": ">= 1.0 < 1.5",
+
+    "uglify-js-brunch": ">= 1.0 < 1.5",
+    "clean-css-brunch": ">= 1.0 < 1.5"
+  },
+  "devDependencies": {
+  }
+}
