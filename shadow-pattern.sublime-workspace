@@ -11,16 +11,50 @@
 			"file": "app/init-load.coffee",
 			"settings":
 			{
-				"buffer_size": 618,
+				"buffer_size": 2809,
 				"line_ending": "Windows",
 				"name": "load_shadowpattern = ->"
+			}
+		},
+		{
+			"file": "app/chromakey.coffee",
+			"settings":
+			{
+				"buffer_size": 786,
+				"line_ending": "Windows",
+				"name": "exports.chromaKeyImage = (image, chromakeycolor) -"
+			}
+		},
+		{
+			"file": "app/player.coffee",
+			"settings":
+			{
+				"buffer_size": 1391,
+				"line_ending": "Windows",
+				"name": "exports.createPlayer = (roguelikebase) ->"
+			}
+		},
+		{
+			"file": "/C/Users/Gary/Documents/Company/Projects/simplestrat/src-browser/simplestrat/preloader.cljs",
+			"settings":
+			{
+				"buffer_size": 1891,
+				"line_ending": "Windows"
 			}
 		},
 		{
 			"file": "app/dungeontilemap.coffee",
 			"settings":
 			{
-				"buffer_size": 1643,
+				"buffer_size": 3753,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/assets/index.html",
+			"settings":
+			{
+				"buffer_size": 597,
 				"line_ending": "Windows"
 			}
 		}
@@ -28,9 +62,13 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 311.0,
+		"height": 380.0,
 		"selected_items":
 		[
+			[
+				"pack",
+				"Package Control: Install Package"
+			],
 			[
 				"Package Control: ",
 				"Package Control: Install Package"
@@ -53,10 +91,11 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/assets/images/rltiles-player.png",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/config.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/assets/index.html",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/dungeontilemap.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/vendor/crafty.js",
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/config.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/public/js/shadowpattern.js",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/.gitignore",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/public/shadowpattern.html",
@@ -103,20 +142,48 @@
 					"file": "app/init-load.coffee",
 					"settings":
 					{
-						"buffer_size": 618,
+						"buffer_size": 2809,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								522,
-								522
+								2281,
+								2281
 							]
 						],
 						"settings":
 						{
 							"auto_name": "load_shadowpattern = ->",
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 425.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/chromakey.coffee",
+					"settings":
+					{
+						"buffer_size": 786,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								111,
+								111
+							]
+						],
+						"settings":
+						{
+							"auto_name": "exports.chromaKeyImage = (image, chromakeycolor) -",
 							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage"
 						},
 						"translation.x": 0.0,
@@ -126,27 +193,111 @@
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "app/dungeontilemap.coffee",
+					"buffer": 2,
+					"file": "app/player.coffee",
 					"settings":
 					{
-						"buffer_size": 1643,
+						"buffer_size": 1391,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1625,
-								1625
+								0,
+								0
 							]
 						],
 						"settings":
 						{
+							"auto_name": "exports.createPlayer = (roguelikebase) ->",
 							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 171.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/C/Users/Gary/Documents/Company/Projects/simplestrat/src-browser/simplestrat/preloader.cljs",
+					"settings":
+					{
+						"buffer_size": 1891,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1655,
+								1655
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Clojure/Clojure.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "app/dungeontilemap.coffee",
+					"settings":
+					{
+						"buffer_size": 3753,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								845,
+								845
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "app/assets/index.html",
+					"settings":
+					{
+						"buffer_size": 597,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								503,
+								503
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
