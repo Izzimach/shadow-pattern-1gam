@@ -1,5 +1,6 @@
 # given some image and a chromakey color, this finds all the
 # pixels of that color and makes them transparent.
+
 exports.chromaKeyImage = (image, chromakeycolor) ->
 	w = image.width
 	h = image.height

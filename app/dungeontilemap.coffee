@@ -8,6 +8,7 @@
 
 exports.createDungeonTilemap = (dungeonwidth, dungeonheight, tilewidth, tileheight, spritesheet, solidspriteframes) ->
 	dungeon = new createjs.DisplayObject()
+	dungeon.name = "dungeontilemap"
 
 	createTile = (x,y) ->
 		return {

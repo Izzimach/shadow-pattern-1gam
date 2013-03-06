@@ -1,52 +1,90 @@
 exports.createPlayer = (roguelikebase) ->
-	playerframedata = [
+	playerframedata = {
 		# human bodies
-		[0,0,32,32,0,0,0],
-		[32,0,32,32,0,0,0],
+		"human1 female" : [0,0,32,32,0,0,0],
+		"human1 male" : [32,0,32,32,0,0,0],
 
 		# clothes
-		[0,128,16,32,0,0,0],
-		[16,128,16,32,0,0,0],
+		"yellow robes" : [0,128,16,32,0,0,0],
+		"brown robes" : [16,128,16,32,0,0,0],
 
 		# shoes
-		[0,96,32,16,0,0,0],
-		[0,112,32,16,0,0,0],
+		"red shoes" : [0,96,32,16,0,0,0],
+		"red chainmail shoes" : [0,112,32,16,0,0,0],
 
 		# weapons
-		[0,320,16,32,0,0,0],
-		[16,256,16,32,0,0,0],
+		"battleaxe" : [0,320,16,32,0,0,0],
+		"black sword" : [16,256,16,32,0,0,0],
 
 		# shields/off-hands
-		[480,224,16,32,0,0,0],
-		[464,224,16,32,0,0,0]
-	]
+		"sword, offhand" : [480,224,16,32,0,0,0],
+		"sai, offhand" : [464,224,16,32,0,0,0]
+	}
 
-	spriteSheet = new createjs.SpriteSheet {images:[roguelikebase.assets.images["playerspritesheet-alpha"]], frames: playerframedata}
+	# we need to build two arrays: one lists all the frame rectangle in order,
+	# and the other maps from icon names to frame indices
+	playericonnames  = (key for key of playerframedata)
+	playerframes = (playerframedata[iconname] for iconname in playericonnames)
+	#console.log playericonnames
+	#console.log playerframes
 
-	playerbodygraphic = new createjs.BitmapAnimation spriteSheet
-	playerbodygraphic.gotoAndStop 0
+	# yucky extending of an easelJS object
+	PlayerIcon = ->
+		playericon = new createjs.BitmapAnimation spriteSheet
+		playericon.setplayericon = (iconname) ->
+			@gotoAndStop playericonnames.indexOf(iconname)
+		return playericon
 
-	playerclothesgraphic = new createjs.BitmapAnimation spriteSheet
-	playerclothesgraphic.gotoAndStop 3
+	spriteSheet = new createjs.SpriteSheet {images:[roguelikebase.assets.images["playerspritesheet-alpha"]], frames: playerframes}
+
+	playerbodygraphic = new PlayerIcon
+	playerbodygraphic.setplayericon "human1 female"	
+
+	playerclothesgraphic = new PlayerIcon
+	playerclothesgraphic.setplayericon "brown robes"
 	playerclothesgraphic.x = 8
 
-	playershoesgraphic = new createjs.BitmapAnimation spriteSheet
-	playershoesgraphic.gotoAndStop 4
+	playershoesgraphic = new PlayerIcon
+	playershoesgraphic.setplayericon "red shoes"
 	playershoesgraphic.y = 16
 
-	playerweapon1graphic = new createjs.BitmapAnimation spriteSheet
-	playerweapon1graphic.gotoAndStop 6
+	playerweapon1graphic = new PlayerIcon
+	playerweapon1graphic.setplayericon "battleaxe"
 
-	playerweapon2graphic = new createjs.BitmapAnimation spriteSheet
-	playerweapon2graphic.gotoAndStop 8
+	playerweapon2graphic = new PlayerIcon
+	playerweapon2graphic.setplayericon "sword, offhand"
 	playerweapon2graphic.x = 18
 
-	compositeplayer = new createjs.Container()
-	compositeplayer.addChild playerbodygraphic
-	compositeplayer.addChild playershoesgraphic
-	compositeplayer.addChild playerclothesgraphic
-	compositeplayer.addChild playerweapon1graphic
-	compositeplayer.addChild playerweapon2graphic
+	compositeplayergraphic = new createjs.Container()
+	compositeplayergraphic.addChild playerbodygraphic
+	compositeplayergraphic.addChild playershoesgraphic
+	compositeplayergraphic.addChild playerclothesgraphic
+	compositeplayergraphic.addChild playerweapon1graphic
+	compositeplayergraphic.addChild playerweapon2graphic
 
+	playerdata = {
+		sprite: compositeplayergraphic,
+		dungeon: null,
+		x:0,
+		y:0
+	}
 
-	return compositeplayer
+	playerdata.putInDungeon = (dungeon, x, y) ->
+		@dungeon = dungeon
+		if dungeon.dungeonview != null
+			dungeon.dungeonview.addChild @sprite	
+
+		@moveToTile x,y
+
+	playerdata.removeFromDungeon = (dungeon) ->
+		@dungeon = null
+		if dungeon.dungeonview != null
+			dungeon.dungeonview.removeChild player.sprite
+
+	playerdata.moveToTile = (x,y) ->
+		@x = x
+		@y = y
+		@sprite.x = x * @dungeon.tilewidth
+		@sprite.y = y * @dungeon.tileheight
+
+	return playerdata
