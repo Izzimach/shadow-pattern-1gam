@@ -1,21 +1,38 @@
 exports.start = ->
-	Crafty.init 800, 600
+	canvas = document.getElementById "shadowPatternCanvas"
+	stage = new createjs.Stage canvas
 
-	Crafty.scene "loading", ->
-		images = ["images/rltiles-dungeon.png",
-				"images/rltiles-player.png",
-				"images/rltiles-items.png",
-				"images/rltiles-monsters.png"	]
-		Crafty.load ["images/rltiles-dungeon.png"], ->
-			Crafty.scene "main"
+	roguelikebase = {}
+	roguelikebase.stage = stage
 
-	Crafty.scene "main", ->
-		Crafty.sprite 32, "images/rltiles-dungeon.png", { DungeonTile:[0,0]}
+	img = new Image()
+	img.src =  "images/rltiles-dungeon.png"
+	img.onload = (event) ->
+		dungeonmodule = require 'dungeontilemap'
 
-		((Crafty.e "2D, DOM, DungeonTile").attr {x:0, y:0, z:1}).sprite 0,1,1,1
-		((Crafty.e "2D, DOM, DungeonTile").attr {x:32, y:0, z:1}).sprite 2,0,1,1
-		((Crafty.e "2D, DOM, DungeonTile").attr {x:32, y:32, z:1}).sprite 2,0,1,1
-		((Crafty.e "2D, DOM, DungeonTile").attr {x:0, y:32, z:1}).sprite 2,0,1,1
-		((Crafty.e "2D, DOM, DungeonTile").attr {x:64, y:0, z:1}).sprite 2,0,1,1
+		spriteSheet = new createjs.SpriteSheet {images:[img], frames: {width:32, height:32}}
 
-	Crafty.scene "loading"
+		bmpAnim = new createjs.BitmapAnimation spriteSheet
+		bmpAnim.gotoAndStop 30
+		bmpAnim.x = 32
+		bmpAnim.y = 32
+
+		#stage.addChild bmpAnim
+
+		dungeonwidth = 50
+		dungeonheight = 50
+		dungeon = dungeonmodule.createDungeonTilemap dungeonwidth, dungeonheight, 32, 32, spriteSheet
+		dungeon.x = 0
+		dungeon.y = 0
+
+		map = new ROT.Map.Digger dungeonwidth, dungeonheight, {roomWidth:[4,9], roomHeight:[4,9], corridorLength:[4,12], dugPercentage:0.4}
+		map.create (x,y,wall) -> dungeon.tiledata[x][y].spriteframe = (if wall > 0 then 13 else 30)
+
+		stage.addChild dungeon
+
+		stage.update()
+
+		infotext = new createjs.Text "Argh!\nurgh", "Arial", "#08f"
+		stage.addChild infotext
+
+		stage.update()
