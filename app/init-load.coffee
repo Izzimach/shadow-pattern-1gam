@@ -49,7 +49,8 @@ exports.start = ->
 		dungeonmodule.installDungeon roguelikebase, dungeon
 
 		player = playermodule.createPlayer roguelikebase
-		dungeon.addPlayer player, 4,4
+		playerstarttile = dungeon.upstairstile
+		dungeon.addPlayer player, playerstarttile.tilex, playerstarttile.tiley
 
 		infotext = new createjs.Text "Argh!\nurgh", "Arial", "#08f"
 		stage.addChild infotext

@@ -1,21 +1,3 @@
-
-addPlayer = (player, x, y) ->
-	@player = player
-	player.putInDungeon this, x, y
-
-removePlayer = (player) ->
-	@player = null
-	player.removeFromDungeon this
-
-addMonster = (monster, x, y) ->
-	@monsters.push monster
-	monster.putInDungeon this,x,y
-
-removeMonster = (monster) ->
-	monsterindex = @monsters.indexOf monster
-	@monsters.splice monsterindex, 1
-	monster.removeFromDungeon this
-
 exports.createDungeon = (roguelikebase) ->
 	tilemapmodule = require 'dungeontilemap'
 
@@ -23,8 +5,8 @@ exports.createDungeon = (roguelikebase) ->
 
 	#stage.addChild bmpAnim
 
-	dungeonwidth = 50
-	dungeonheight = 50
+	dungeonwidth = 20
+	dungeonheight = 20
 	tilewidth = 32
 	tileheight = 32
 	tilemap = tilemapmodule.createDungeonTilemap dungeonwidth, dungeonheight, tilewidth, tileheight, spriteSheet
@@ -32,7 +14,9 @@ exports.createDungeon = (roguelikebase) ->
 	tilemap.y = 0
 
 	map = new ROT.Map.Digger dungeonwidth, dungeonheight, {roomWidth:[4,9], roomHeight:[4,9], corridorLength:[4,12], dugPercentage:0.4}
-	diggerdatatosprite = (x,y,wall) -> tilemap.tiledata[x][y].spriteframe = (if wall > 0 then 13 else 30)
+	diggerdatatosprite = (x,y,wall) -> 
+		tile = tilemap.tiledata[x][y]
+		tile.settile (if wall > 0 then "wall" else "floor")
 	map.create diggerdatatosprite
 
 	dungeon = {
@@ -40,17 +24,53 @@ exports.createDungeon = (roguelikebase) ->
 		monsters: [],
 		items: [],
 
+		tiles : tilemap,
+
 		dungeonview:null,
 
 		tilewidth: tilewidth,
-		tileheight: tileheight
+		tileheight: tileheight,
 		width:dungeonwidth,
 		height:dungeonheight
 	}
-	dungeon.tilemap = tilemap
-	dungeon.addPlayer = addPlayer
-	dungeon.addMonster = addMonster
-	dungeon.removeMonster = removeMonster
+
+	dungeon.addPlayer = (player, x, y) ->
+		@player = player
+		player.putInDungeon this, x, y
+
+	dungeon.removePlayer = (player) ->
+		@player = null
+		player.removeFromDungeon this
+
+	dungeon.addMonster = (monster, x, y) ->
+		@monsters.push monster
+		monster.putInDungeon this,x,y
+
+	dungeon.removeMonster = (monster) ->
+		monsterindex = @monsters.indexOf monster
+		@monsters.splice monsterindex, 1
+		monster.removeFromDungeon this
+
+	dungeon.pickFloorTile = ->
+		startx = Math.floor ROT.RNG.getUniform() * @width
+		starty = Math.floor ROT.RNG.getUniform() * @height
+		for offsetx in [0..dungeon.width-1]
+			for offsety in [0..dungeon.height-1]
+				testx = (startx + offsety) % @width
+				testy = (starty + offsety) % @height
+				if @tiles.tiledata[testx][testy].tiletypename is "floor"
+					return @tiles.tiledata[testx][testy]
+		# no floor tile found!?!?!?
+		return null
+
+	dungeon.placeStairs = ->
+		@upstairstile = @pickFloorTile()
+		@upstairstile.settile "upstairs"
+		@downstairstile = @pickFloorTile()
+		@downstairstile.settile "downstairs"
+
+	dungeon.placeStairs()
+
 	return dungeon
 
 uninstallCurrentDungeon = (roguelikebase) ->	
@@ -70,7 +90,7 @@ exports.installDungeon = (roguelikebase, dungeontoinstall) ->
 		uninstallCurrentDungeon roguelikebase
 
 	dungeonview = roguelikebase.stage.getChildByName "dungeonview"
-	dungeonview.addChild dungeontoinstall.tilemap
+	dungeonview.addChild dungeontoinstall.tiles
 
 	dungeontoinstall.dungeonview = dungeonview
 

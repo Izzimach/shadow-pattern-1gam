@@ -79,7 +79,7 @@ exports.createPlayer = (roguelikebase) ->
 	playerdata.removeFromDungeon = (dungeon) ->
 		@dungeon = null
 		if dungeon.dungeonview != null
-			dungeon.dungeonview.removeChild player.sprite
+			dungeon.dungeonview.removeChild @sprite
 
 	playerdata.moveToTile = (x,y) ->
 		@x = x

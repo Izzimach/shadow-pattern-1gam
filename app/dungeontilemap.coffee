@@ -10,14 +10,31 @@ exports.createDungeonTilemap = (dungeonwidth, dungeonheight, tilewidth, tileheig
 	dungeon = new createjs.DisplayObject()
 	dungeon.name = "dungeontilemap"
 
+	tilenames = {
+		"floor" : 30,
+		"wall" : 18,
+		"door" : 19,
+		"upstairs" : 43,
+		"downstairs" : 39
+	}
+	passabletilenames = ["floor", "upstairs", "downstairs"]
+
+	settiletype = (typename) ->
+		@tiletypename = typename
+		@spriteframe = tilenames[typename]
+		@passable = if passabletilenames.indexOf typename >= 0 then false else true 
+
 	createTile = (x,y) ->
 		return {
-			visible: (y>3),
-			explored: (x>3), 
-			lightlevel:x+y, 
-			spriteframe:18, 
-			pixelx: x * tilewidth, 
-			pixely: y * tileheight
+			visible: true,
+			explored: true, 
+			lightlevel:x+y,
+			tiletypename : "wall",
+			spriteframe: tilenames["wall"],
+			settile : settiletype,
+			passable:false,
+			tilex: x,
+			tiley: y
 		}
 
 	createColumn = (x) ->
@@ -39,19 +56,21 @@ exports.createDungeonTilemap = (dungeonwidth, dungeonheight, tilewidth, tileheig
 		if o
 			rect = o.rect
 			ctx.globalAlpha = 1.0
+			pixelx = tile.tilex * tilewidth
+			pixely = tile.tiley * tileheight
 			if tile.visible
-				ctx.fillRect tile.pixelx - o.regX, tile.pixely - o.regY, rect.width, rect.height
+				ctx.fillRect pixelx - o.regX, pixely - o.regY, rect.width, rect.height
 				if tile.lightlevel >= 75
 					ctx.globalAlpha = 1.0
 				else
 					ctx.globalAlpha = 0.25 + tile.lightlevel/100.0
-				ctx.drawImage o.image, rect.x, rect.y, rect.width, rect.height, tile.pixelx - o.regX, tile.pixely - o.regY, rect.width, rect.height
+				ctx.drawImage o.image, rect.x, rect.y, rect.width, rect.height, pixelx - o.regX, pixely - o.regY, rect.width, rect.height
 			else if tile.explored
-				ctx.fillRect tile.pixelx - o.regX, tile.pixely - o.regY, rect.width, rect.height
+				ctx.fillRect pixelx - o.regX, pixely - o.regY, rect.width, rect.height
 				ctx.globalAlpha = 0.25
-				ctx.drawImage o.image, rect.x, rect.y, rect.width, rect.height, tile.pixelx - o.regX, tile.pixely - o.regY, rect.width, rect.height				
+				ctx.drawImage o.image, rect.x, rect.y, rect.width, rect.height, pixelx - o.regX, pixely - o.regY, rect.width, rect.height				
 			else
-				ctx.fillRect tile.pixelx - o.regX, tile.pixely - o.regY, rect.width, rect.height
+				ctx.fillRect pixelx - o.regX, pixely - o.regY, rect.width, rect.height
 
 		return true
 

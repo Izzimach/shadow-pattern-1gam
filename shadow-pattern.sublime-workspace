@@ -11,50 +11,25 @@
 			"file": "app/init-load.coffee",
 			"settings":
 			{
-				"buffer_size": 2809,
+				"buffer_size": 2317,
 				"line_ending": "Windows",
 				"name": "load_shadowpattern = ->"
 			}
 		},
 		{
-			"file": "app/chromakey.coffee",
+			"file": "app/dungeon.coffee",
 			"settings":
 			{
-				"buffer_size": 786,
+				"buffer_size": 2805,
 				"line_ending": "Windows",
-				"name": "exports.chromaKeyImage = (image, chromakeycolor) -"
-			}
-		},
-		{
-			"file": "app/player.coffee",
-			"settings":
-			{
-				"buffer_size": 1391,
-				"line_ending": "Windows",
-				"name": "exports.createPlayer = (roguelikebase) ->"
-			}
-		},
-		{
-			"file": "/C/Users/Gary/Documents/Company/Projects/simplestrat/src-browser/simplestrat/preloader.cljs",
-			"settings":
-			{
-				"buffer_size": 1891,
-				"line_ending": "Windows"
+				"name": "exports.createDungeon = ->"
 			}
 		},
 		{
 			"file": "app/dungeontilemap.coffee",
 			"settings":
 			{
-				"buffer_size": 3753,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/assets/index.html",
-			"settings":
-			{
-				"buffer_size": 597,
+				"buffer_size": 4196,
 				"line_ending": "Windows"
 			}
 		}
@@ -91,12 +66,15 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/player.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/chromakey.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/simplestrat/src-browser/simplestrat/preloader.cljs",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/assets/index.html",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/public/js/shadowpattern.js",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/assets/images/rltiles-player.png",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/config.coffee",
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/assets/index.html",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/dungeontilemap.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/vendor/crafty.js",
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/public/js/shadowpattern.js",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/.gitignore",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/public/shadowpattern.html",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/Brewfile"
@@ -117,6 +95,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"compositeplayer"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -134,7 +113,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -142,15 +121,15 @@
 					"file": "app/init-load.coffee",
 					"settings":
 					{
-						"buffer_size": 2809,
+						"buffer_size": 2317,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2281,
-								2281
+								1715,
+								1715
 							]
 						],
 						"settings":
@@ -160,107 +139,52 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 425.0,
+						"translation.y": 382.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "app/chromakey.coffee",
+					"file": "app/dungeon.coffee",
 					"settings":
 					{
-						"buffer_size": 786,
+						"buffer_size": 2805,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								111,
-								111
+								1948,
+								1948
 							]
 						],
 						"settings":
 						{
-							"auto_name": "exports.chromaKeyImage = (image, chromakeycolor) -",
+							"auto_name": "exports.createDungeon = ->",
 							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 788.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "app/player.coffee",
-					"settings":
-					{
-						"buffer_size": 1391,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"auto_name": "exports.createPlayer = (roguelikebase) ->",
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/C/Users/Gary/Documents/Company/Projects/simplestrat/src-browser/simplestrat/preloader.cljs",
-					"settings":
-					{
-						"buffer_size": 1891,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1655,
-								1655
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Clojure/Clojure.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
 					"file": "app/dungeontilemap.coffee",
 					"settings":
 					{
-						"buffer_size": 3753,
+						"buffer_size": 4196,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								845,
-								845
+								1126,
+								1126
 							]
 						],
 						"settings":
@@ -269,35 +193,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "app/assets/index.html",
-					"settings":
-					{
-						"buffer_size": 597,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								503,
-								503
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 6.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -338,7 +234,7 @@
 	"menu_visible": true,
 	"replace":
 	{
-		"height": 0.0
+		"height": 62.0
 	},
 	"save_all_on_build": true,
 	"select_file":
