@@ -18,21 +18,24 @@ exports.createDungeonTilemap = (dungeonwidth, dungeonheight, tilewidth, tileheig
 		"downstairs" : 39
 	}
 	passabletilenames = ["floor", "upstairs", "downstairs"]
+	transparenttilenames = ["floor", "upstairs", "downstairs"]
 
 	settiletype = (typename) ->
 		@tiletypename = typename
 		@spriteframe = tilenames[typename]
-		@passable = if passabletilenames.indexOf typename >= 0 then false else true 
+		@passable = if (passabletilenames.indexOf typename) >= 0 then true else false
+		@transparent = if (transparenttilenames.indexOf typename) >= 0 then true else false
 
 	createTile = (x,y) ->
 		return {
-			visible: true,
-			explored: true, 
+			visible: false,
+			explored: false, 
 			lightlevel:x+y,
 			tiletypename : "wall",
 			spriteframe: tilenames["wall"],
 			settile : settiletype,
 			passable:false,
+			transparent:false,
 			tilex: x,
 			tiley: y
 		}
@@ -44,12 +47,12 @@ exports.createDungeonTilemap = (dungeonwidth, dungeonheight, tilewidth, tileheig
 
 	# given an x, y coordinate, get the tile at that coordinate
 	dungeon.lookupTile = (x, y) ->
-		return dungeon.tiledata[x][y]
+		return this.tiledata[x][y]
 
 	# apply some function to the tiles specified by an array
 	# of elements that specify [x y] coordinates: [[x1,y1], [x2,y2],[x3,y3]]
 	dungeon.applyToTiles = (tilelist, applyfunc) ->
-		(applyfunc lookupTile t[0],t[1]) for t in tilelist
+		(applyfunc @lookupTile t[0],t[1]) for t in tilelist
 
 	dungeon.drawTile = (ctx, tile) ->
 		o = spritesheet.getFrame tile.spriteframe
@@ -91,12 +94,12 @@ exports.createDungeonTilemap = (dungeonwidth, dungeonheight, tilewidth, tileheig
 	
 	dungeon.setVisibility = (fresh_visibletiles) ->
 		# first reset old visible tiles
-		this.applyToTiles visibletiles, (tile) -> tile.visible = false
-		this.applyToTiles fresh_visibletiles, (tile) -> tile.visible = true
+		@applyToTiles visibletiles, (tile) -> tile.visible = false
+		@applyToTiles fresh_visibletiles, (tile) -> tile.visible = true
 		visibletiles = fresh_visibletiles
 
 	dungeon.markAsExplored = (exploredtiles) ->
-		this.applyToTiles exploredtile, (tile) -> tile.explored = true
+		this.applyToTiles exploredtiles, (tile) -> tile.explored = true
 
 	dungeonlights = {}
 	nextlightID = 1
@@ -107,24 +110,28 @@ exports.createDungeonTilemap = (dungeonwidth, dungeonheight, tilewidth, tileheig
 	dungeon.registerLight = (lightdata) ->
 		lightID = nextlightID
 		nextlightID = nextlightID + 1
-		dungeonlight[nextlightID] = lightdata
+		dungeonlights[lightID] = lightdata
 		for t in lightdata
-			tile = lookupTile t[0],t[1]
+			tile = @lookupTile t[0],t[1]
 			tile.lightlevel = tile.lightlevel + t[2]
 		return lightID
 
 	dungeon.updateLight = (lightID, fresh_lightdata) ->
 		old_lightdata = dungeonlights[lightID]
 		for t in old_lightdata
-			old_tile = lookupTile t[0],t[1]
+			old_tile = @lookupTile t[0],t[1]
 			old_tile.lightlevel = old_tile.lightleve - t[2]
 		for t in fresh_lightdata
-			fresh_tile = lookupTile t[0],t[1]
+			fresh_tile = @lookupTile t[0],t[1]
 			fresh_tile.lightlevel = fresh_tile.lightlevel + t[2]
 		dungeonlights[lightID] = fresh_lightdata
 		return lightID
 
 	dungeon.unregisterLight = (lightID) ->
 		delete dungeonlights[lightID]
+
+	dungeon.isTileTransparent = (x,y) ->
+		return false if x < 0 or y < 0 or x >= dungeonwidth or y >= dungeonheight
+		return @tiledata[x][y].transparent
 
 	return dungeon

@@ -52,6 +52,8 @@ exports.createDungeon = (roguelikebase) ->
 		monster.removeFromDungeon this
 
 	dungeon.pickFloorTile = ->
+		# start at a random location and scan for the first
+		# found floor tile
 		startx = Math.floor ROT.RNG.getUniform() * @width
 		starty = Math.floor ROT.RNG.getUniform() * @height
 		for offsetx in [0..dungeon.width-1]
@@ -68,6 +70,21 @@ exports.createDungeon = (roguelikebase) ->
 		@upstairstile.settile "upstairs"
 		@downstairstile = @pickFloorTile()
 		@downstairstile.settile "downstairs"
+
+	visibletest = (x,y) -> tilemap.isTileTransparent(x,y)
+	FOValgorithm = new ROT.FOV.PreciseShadowcasting visibletest
+
+	dungeon.computeVisibility = (x,y, r) ->
+		visibletiles = []
+		visibletilefound = (x,y,r,vis) -> visibletiles.push [x,y,vis*100,r]
+		FOValgorithm.compute x,y,r, visibletilefound
+		return visibletiles
+
+	dungeon.setVisibility = (x) -> tilemap.setVisibility x
+	dungeon.markAsExplored = (x) -> tilemap.markAsExplored x
+	dungeon.registerLight = (x) -> tilemap.registerLight x
+	dungeon.updateLight = (id, x) -> tilemap.updateLight id,x
+	dungeon.unregisterLight = (id) -> tilemap.unregisterLight id
 
 	dungeon.placeStairs()
 

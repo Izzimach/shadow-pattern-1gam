@@ -34,7 +34,9 @@ exports.start = ->
 		# a body, clothes, sword, etc. so the player spritesheet needs to have a transparent background. But
 		# it doesn't by default, so here we create a version with a transparent background
 		chromakeymodule = require 'chromakey'
-		assets.images["playerspritesheet-alpha"] = chromakeymodule.chromaKeyImage assets.images["playerspritesheet"], [71,108,108]
+		assets.images["player-alpha"] = chromakeymodule.chromaKeyImage assets.images["playerspritesheet"], [71,108,108]
+		assets.images["monsters-alpha"] = chromakeymodule.chromaKeyImage assets.images["monsterspritesheet"], [71,108,108]
+		assets.images["items-alpha"] = chromakeymodule.chromaKeyImage assets.images["itemspritesheet"], [71,108,108]
 
 		dungeonmodule = require 'dungeon'
 		playermodule = require 'player'
@@ -51,6 +53,8 @@ exports.start = ->
 		player = playermodule.createPlayer roguelikebase
 		playerstarttile = dungeon.upstairstile
 		dungeon.addPlayer player, playerstarttile.tilex, playerstarttile.tiley
+
+		player.recomputeVisibility()
 
 		infotext = new createjs.Text "Argh!\nurgh", "Arial", "#08f"
 		stage.addChild infotext

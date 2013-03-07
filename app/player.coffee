@@ -35,7 +35,7 @@ exports.createPlayer = (roguelikebase) ->
 			@gotoAndStop playericonnames.indexOf(iconname)
 		return playericon
 
-	spriteSheet = new createjs.SpriteSheet {images:[roguelikebase.assets.images["playerspritesheet-alpha"]], frames: playerframes}
+	spriteSheet = new createjs.SpriteSheet {images:[roguelikebase.assets.images["player-alpha"]], frames: playerframes}
 
 	playerbodygraphic = new PlayerIcon
 	playerbodygraphic.setplayericon "human1 female"	
@@ -65,6 +65,7 @@ exports.createPlayer = (roguelikebase) ->
 	playerdata = {
 		sprite: compositeplayergraphic,
 		dungeon: null,
+		lightID:-1,
 		x:0,
 		y:0
 	}
@@ -74,17 +75,28 @@ exports.createPlayer = (roguelikebase) ->
 		if dungeon.dungeonview != null
 			dungeon.dungeonview.addChild @sprite	
 
+		@lightID = @dungeon.registerLight []
 		@moveToTile x,y
 
 	playerdata.removeFromDungeon = (dungeon) ->
-		@dungeon = null
 		if dungeon.dungeonview != null
 			dungeon.dungeonview.removeChild @sprite
+
+		@dungeon.unregisterLight @lightID
+		@lightID = -1
+		@dungeon = null
 
 	playerdata.moveToTile = (x,y) ->
 		@x = x
 		@y = y
 		@sprite.x = x * @dungeon.tilewidth
 		@sprite.y = y * @dungeon.tileheight
+
+	playerdata.recomputeVisibility = () ->
+		visibletiles = @dungeon.computeVisibility @x,@y,9
+		#console.log visibletiles
+		@dungeon.setVisibility visibletiles
+		@dungeon.markAsExplored visibletiles
+		@dungeon.updateLight @lightID,visibletiles
 
 	return playerdata
