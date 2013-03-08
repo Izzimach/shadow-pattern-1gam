@@ -8,6 +8,7 @@
 
 exports.createDungeonTilemap = (dungeonwidth, dungeonheight, tilewidth, tileheight, spritesheet, solidspriteframes) ->
 	dungeon = new createjs.DisplayObject()
+
 	dungeon.name = "dungeontilemap"
 
 	tilenames = {
@@ -23,8 +24,8 @@ exports.createDungeonTilemap = (dungeonwidth, dungeonheight, tilewidth, tileheig
 	settiletype = (typename) ->
 		@tiletypename = typename
 		@spriteframe = tilenames[typename]
-		@passable = if (passabletilenames.indexOf typename) >= 0 then true else false
-		@transparent = if (transparenttilenames.indexOf typename) >= 0 then true else false
+		@passable = (typename in passabletilenames)
+		@transparent = (typename in transparenttilenames)
 
 	createTile = (x,y) ->
 		return {

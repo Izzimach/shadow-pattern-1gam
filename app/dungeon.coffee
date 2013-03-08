@@ -1,7 +1,7 @@
 exports.createDungeon = (roguelikebase) ->
 	tilemapmodule = require 'dungeontilemap'
 
-	spriteSheet = new createjs.SpriteSheet {images:[roguelikebase.assets.images["dungeonspritesheet"]], frames: {width:32, height:32}}
+	spriteSheet = new createjs.SpriteSheet {images:[roguelikebase.assets.images["dungeonspritesheet"]], frames: {width:32, height:32, regX:16, regY:16}}
 
 	#stage.addChild bmpAnim
 
