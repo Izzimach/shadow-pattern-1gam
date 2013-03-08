@@ -85,6 +85,7 @@ exports.createDungeon = (roguelikebase) ->
 	dungeon.registerLight = (x) -> tilemap.registerLight x
 	dungeon.updateLight = (id, x) -> tilemap.updateLight id,x
 	dungeon.unregisterLight = (id) -> tilemap.unregisterLight id
+	dungeon.isPassable = (x,y) -> tilemap.isTilePassable x,y
 
 	dungeon.placeStairs()
 

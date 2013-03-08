@@ -51,6 +51,7 @@ exports.start = ->
 		dungeonmodule.installDungeon roguelikebase, dungeon
 
 		player = playermodule.createPlayer roguelikebase
+		roguelikebase.player = player
 		playerstarttile = dungeon.upstairstile
 		dungeon.addPlayer player, playerstarttile.tilex, playerstarttile.tiley
 

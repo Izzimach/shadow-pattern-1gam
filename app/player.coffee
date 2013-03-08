@@ -17,15 +17,21 @@ exports.createPlayer = (roguelikebase) ->
 
 	spriteSheet = new createjs.SpriteSheet {images:[roguelikebase.assets.images["player-alpha"]], frames: playerframes}
 
+	playershadowgraphic = new PlayerIcon
+	playershadowgraphic.setplayericon "player shadow"
+
+	playercloakgraphic = new PlayerIcon
+	playercloakgraphic.setplayericon "red cloak"
+
 	playerbodygraphic = new PlayerIcon
 	playerbodygraphic.setplayericon "human1 female"	
 
 	playerclothesgraphic = new PlayerIcon
-	playerclothesgraphic.setplayericon "brown robes"
+	playerclothesgraphic.setplayericon "chainmail shirt"
 	#playerclothesgraphic.x = 8
 
 	playershoesgraphic = new PlayerIcon
-	playershoesgraphic.setplayericon "red shoes"
+	playershoesgraphic.setplayericon "red chainmail shoes"
 	playershoesgraphic.y = 8
 
 	playerweapon1graphic = new PlayerIcon
@@ -38,6 +44,8 @@ exports.createPlayer = (roguelikebase) ->
 	playerweapon2graphic.scaleX = -1
 
 	compositeplayergraphic = new createjs.Container()
+	compositeplayergraphic.addChild playershadowgraphic
+	compositeplayergraphic.addChild playercloakgraphic
 	compositeplayergraphic.addChild playerbodygraphic
 	compositeplayergraphic.addChild playershoesgraphic
 	compositeplayergraphic.addChild playerclothesgraphic
@@ -82,4 +90,29 @@ exports.createPlayer = (roguelikebase) ->
 		@dungeon.markAsExplored visibletiles
 		@dungeon.updateLight @lightID,visibletiles
 
+	playerdata.step = (dx,dy) ->
+		newx = @x + dx
+		newy = @y + dy
+		if @dungeon.isPassable newx,newy
+			@moveToTile newx,newy
+			@recomputeVisibility()
+			roguelikebase.stage.update()
+
+	# initialize keyboard input
+	document.onkeydown = (evt) ->
+    	#console.log evt
+	    evt ||= window.event
+	    if evt.keyCode
+	    	# process as a keycode
+	    	if evt.keyCode is ROT.VK_H
+	    		roguelikebase.player.step -1,0
+	    	else if evt.keyCode is ROT.VK_L
+	    		roguelikebase.player.step 1,0
+	    	else if evt.keyCode is ROT.VK_K
+	    		roguelikebase.player.step 0,-1
+	    	else if evt.keyCode is ROT.VK_J
+	    		roguelikebase.player.step 0,1
+	    if evt.ctrlKey and evt.keyCode is 90
+        	alert "Ctrl-Z"
+	
 	return playerdata

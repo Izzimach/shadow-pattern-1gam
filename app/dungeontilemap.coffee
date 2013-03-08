@@ -129,10 +129,17 @@ exports.createDungeonTilemap = (dungeonwidth, dungeonheight, tilewidth, tileheig
 		return lightID
 
 	dungeon.unregisterLight = (lightID) ->
+		old_lightdata = dungeonlights[lightID]
+		for t in old_lightdata
+			old_tile = @lookupTile t[0],t[1]
+			old_tile.lightlevel = old_tile.lightleve - t[2]
 		delete dungeonlights[lightID]
 
 	dungeon.isTileTransparent = (x,y) ->
 		return false if x < 0 or y < 0 or x >= dungeonwidth or y >= dungeonheight
 		return @tiledata[x][y].transparent
 
+	dungeon.isTilePassable = (x,y) ->
+		return true if x < 0 or y < 0 or x >= dungeonwidth or y >= dungeonheight
+		return @tiledata[x][y].passable
 	return dungeon
