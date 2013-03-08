@@ -1,25 +1,5 @@
 exports.createPlayer = (roguelikebase) ->
-	playerframedata = {
-		# human bodies
-		"human1 female" : [0,0,32,32,0,0,0],
-		"human1 male" : [32,0,32,32,0,0,0],
-
-		# clothes
-		"yellow robes" : [0,128,16,32,0,0,0],
-		"brown robes" : [16,128,16,32,0,0,0],
-
-		# shoes
-		"red shoes" : [0,96,32,16,0,0,0],
-		"red chainmail shoes" : [0,112,32,16,0,0,0],
-
-		# weapons
-		"battleaxe" : [0,320,16,32,0,0,0],
-		"black sword" : [16,256,16,32,0,0,0],
-
-		# shields/off-hands
-		"sword, offhand" : [480,224,16,32,0,0,0],
-		"sai, offhand" : [464,224,16,32,0,0,0]
-	}
+	playerframedata = (require 'playerspritesheet').FrameData
 
 	# we need to build two arrays: one lists all the frame rectangle in order,
 	# and the other maps from icon names to frame indices
@@ -42,18 +22,20 @@ exports.createPlayer = (roguelikebase) ->
 
 	playerclothesgraphic = new PlayerIcon
 	playerclothesgraphic.setplayericon "brown robes"
-	playerclothesgraphic.x = 8
+	#playerclothesgraphic.x = 8
 
 	playershoesgraphic = new PlayerIcon
 	playershoesgraphic.setplayericon "red shoes"
-	playershoesgraphic.y = 16
+	playershoesgraphic.y = 8
 
 	playerweapon1graphic = new PlayerIcon
-	playerweapon1graphic.setplayericon "battleaxe"
+	playerweapon1graphic.setplayericon "sword, offhand"
+	playerweapon1graphic.x = -8
 
 	playerweapon2graphic = new PlayerIcon
 	playerweapon2graphic.setplayericon "sword, offhand"
-	playerweapon2graphic.x = 18
+	playerweapon2graphic.x = 8
+	playerweapon2graphic.scaleX = -1
 
 	compositeplayergraphic = new createjs.Container()
 	compositeplayergraphic.addChild playerbodygraphic
@@ -66,20 +48,21 @@ exports.createPlayer = (roguelikebase) ->
 		sprite: compositeplayergraphic,
 		dungeon: null,
 		lightID:-1,
+		# x and y here are tile coordinates, not pixel coordinates
 		x:0,
 		y:0
 	}
 
 	playerdata.putInDungeon = (dungeon, x, y) ->
 		@dungeon = dungeon
-		if dungeon.dungeonview != null
+		if dungeon.dungeonview isnt null
 			dungeon.dungeonview.addChild @sprite	
 
 		@lightID = @dungeon.registerLight []
 		@moveToTile x,y
 
 	playerdata.removeFromDungeon = (dungeon) ->
-		if dungeon.dungeonview != null
+		if dungeon.dungeonview isnt null
 			dungeon.dungeonview.removeChild @sprite
 
 		@dungeon.unregisterLight @lightID
