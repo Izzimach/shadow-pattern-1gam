@@ -140,6 +140,6 @@ exports.createDungeonTilemap = (dungeonwidth, dungeonheight, tilewidth, tileheig
 		return @tiledata[x][y].transparent
 
 	dungeon.isTilePassable = (x,y) ->
-		return true if x < 0 or y < 0 or x >= dungeonwidth or y >= dungeonheight
+		return false if x < 0 or y < 0 or x >= dungeonwidth or y >= dungeonheight
 		return @tiledata[x][y].passable
 	return dungeon

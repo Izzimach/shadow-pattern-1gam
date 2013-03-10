@@ -68,6 +68,7 @@ exports.createPlayer = (roguelikebase) ->
 
 		@lightID = @dungeon.registerLight []
 		@moveToTile x,y
+		@setViewCenter x,y
 
 	playerdata.removeFromDungeon = (dungeon) ->
 		if dungeon.dungeonview isnt null
@@ -80,38 +81,77 @@ exports.createPlayer = (roguelikebase) ->
 	playerdata.moveToTile = (x,y) ->
 		@x = x
 		@y = y
+		@recomputeVisibility()
 		@sprite.x = x * @dungeon.tilewidth
 		@sprite.y = y * @dungeon.tileheight
 
 	playerdata.recomputeVisibility = () ->
-		visibletiles = @dungeon.computeVisibility @x,@y,9
+		visibletiles = @dungeon.computeVisibility @x,@y,5
 		#console.log visibletiles
 		@dungeon.setVisibility visibletiles
 		@dungeon.markAsExplored visibletiles
 		@dungeon.updateLight @lightID,visibletiles
+
+	playerdata.setViewCenter = (viewtilex, viewtiley) ->
+		stagecenterx = roguelikebase.stage.canvas.width/2
+		stagecentery = roguelikebase.stage.canvas.height/2
+		dungeonview = roguelikebase.stage.getChildByName "dungeonview"
+		viewpixelx = viewtilex * @dungeon.tilewidth
+		viewpixely = viewtiley * @dungeon.tileheight
+		dungeonscrollX = stagecenterx - viewpixelx
+		dungeonscrollY = stagecentery - viewpixely
+		dungeonview.x = dungeonscrollX
+		dungeonview.y = dungeonscrollY
 
 	playerdata.step = (dx,dy) ->
 		newx = @x + dx
 		newy = @y + dy
 		if @dungeon.isPassable newx,newy
 			@moveToTile newx,newy
-			@recomputeVisibility()
+			@dungeon.updateVisibleObjects()
+			@setViewCenter newx,newy
 			roguelikebase.stage.update()
 
+	# for ROT.engine and ROT.scheduler
+	playerdata.getSpeed = -> 100; # standard actor speed
+
+	playerdata.act = ->
+		# halt the engine, and wait for keyboard input
+		roguelikebase.engine.lock()
+		window.addEventListener "keydown", this
+
+	playerdata.playerturnover = ->
+		window.removeEventListener "keydown", this
+		roguelikebase.engine.unlock()
+
 	# initialize keyboard input
-	document.onkeydown = (evt) ->
+	playerdata.handleEvent = (evt) ->
     	#console.log evt
 	    evt ||= window.event
+	    playeraction = null
 	    if evt.keyCode
 	    	# process as a keycode
+	    	# left/right/up/down
 	    	if evt.keyCode is ROT.VK_H
-	    		roguelikebase.player.step -1,0
+	    		playeraction = -> playerdata.step -1,0
 	    	else if evt.keyCode is ROT.VK_L
-	    		roguelikebase.player.step 1,0
+	    		playeraction = -> playerdata.step 1,0
 	    	else if evt.keyCode is ROT.VK_K
-	    		roguelikebase.player.step 0,-1
+	    		playeraction = -> playerdata.step 0,-1
 	    	else if evt.keyCode is ROT.VK_J
-	    		roguelikebase.player.step 0,1
+	    		playeraction = -> playerdata.step 0,1
+	    	# diagonals
+	    	else if evt.keyCode is ROT.VK_Y
+	    		playeraction = -> playerdata.step -1,-1
+	    	else if evt.keyCode is ROT.VK_U
+	    		playeraction = -> playerdata.step 1,-1
+	    	else if evt.keyCode is ROT.VK_B
+	    		playeraction = -> playerdata.step -1,1
+	    	else if evt.keyCode is ROT.VK_N
+	    		playeraction = -> playerdata.step 1,1
+	    	if playeraction isnt null
+	    		playeraction()
+	    		@playerturnover()
 	    if evt.ctrlKey and evt.keyCode is 90
         	alert "Ctrl-Z"
 	

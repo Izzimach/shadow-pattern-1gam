@@ -5,8 +5,8 @@ exports.createDungeon = (roguelikebase) ->
 
 	#stage.addChild bmpAnim
 
-	dungeonwidth = 20
-	dungeonheight = 20
+	dungeonwidth = 80
+	dungeonheight = 40
 	tilewidth = 32
 	tileheight = 32
 	tilemap = tilemapmodule.createDungeonTilemap dungeonwidth, dungeonheight, tilewidth, tileheight, spriteSheet
@@ -31,33 +31,39 @@ exports.createDungeon = (roguelikebase) ->
 		tilewidth: tilewidth,
 		tileheight: tileheight,
 		width:dungeonwidth,
-		height:dungeonheight
+		height:dungeonheight,
+
+		visiblitychanged : false
 	}
 
 	dungeon.addPlayer = (player, x, y) ->
 		@player = player
 		player.putInDungeon this, x, y
+		@visiblitychanged = true
 
 	dungeon.removePlayer = (player) ->
 		@player = null
 		player.removeFromDungeon this
+		@visiblitychanged = true
 
 	dungeon.addMonster = (monster, x, y) ->
 		@monsters.push monster
 		monster.putInDungeon this,x,y
+		@visiblitychanged = true
 
 	dungeon.removeMonster = (monster) ->
 		monsterindex = @monsters.indexOf monster
 		@monsters.splice monsterindex, 1
 		monster.removeFromDungeon this
+		@visiblitychanged = true
 
 	dungeon.pickFloorTile = ->
 		# start at a random location and scan for the first
 		# found floor tile
 		startx = Math.floor ROT.RNG.getUniform() * @width
 		starty = Math.floor ROT.RNG.getUniform() * @height
-		for offsetx in [0..dungeon.width-1]
-			for offsety in [0..dungeon.height-1]
+		for offsetx in [0...dungeon.width]
+			for offsety in [0...dungeon.height]
 				testx = (startx + offsety) % @width
 				testy = (starty + offsety) % @height
 				if @tiles.tiledata[testx][testy].tiletypename is "floor"
@@ -80,12 +86,29 @@ exports.createDungeon = (roguelikebase) ->
 		FOValgorithm.compute x,y,r, visibletilefound
 		return visibletiles
 
-	dungeon.setVisibility = (x) -> tilemap.setVisibility x
+	dungeon.updateVisibleObjects = ->
+		return if not @visibilitychanged
+
+		# update visibility of monsters
+		monster.checkIsVisible() for monster in @monsters
+		# update visibility of items
+		item.CheckIsVisible() for item in @items
+		@visibilitychanged = false
+
+	dungeon.setVisibility = (x) ->
+		tilemap.setVisibility x
+		@visibilitychanged = true
 	dungeon.markAsExplored = (x) -> tilemap.markAsExplored x
 	dungeon.registerLight = (x) -> tilemap.registerLight x
 	dungeon.updateLight = (id, x) -> tilemap.updateLight id,x
 	dungeon.unregisterLight = (id) -> tilemap.unregisterLight id
-	dungeon.isPassable = (x,y) -> tilemap.isTilePassable x,y
+
+	dungeon.noMonstersAt = (x,y) ->
+		for monster in @monsters
+			return false if monster.x == x and monster.y == y
+		return true
+
+	dungeon.isPassable = (x,y) -> (@tiles.isTilePassable x,y) and (@noMonstersAt x,y)
 
 	dungeon.placeStairs()
 

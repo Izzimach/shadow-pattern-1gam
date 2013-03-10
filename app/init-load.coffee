@@ -55,12 +55,23 @@ exports.start = ->
 		playerstarttile = dungeon.upstairstile
 		dungeon.addPlayer player, playerstarttile.tilex, playerstarttile.tiley
 
-		player.recomputeVisibility()
+		Creature = require 'creatures/Creature'
+		creaturestats = (require 'creatures/CreatureList').DefaultCreature
+		monster = new Creature "bob", creaturestats, roguelikebase
+		monsterstarttile = dungeon.pickFloorTile()
+		dungeon.addMonster monster, monsterstarttile.tilex, monsterstarttile.tiley
 
 		infotext = new createjs.Text "Argh!\nurgh", "Arial", "#08f"
 		stage.addChild infotext
 
 		stage.update()
+
+		engine = new ROT.Engine()
+		engine.addActor player
+
+		roguelikebase.engine = engine
+
+		roguelikebase.engine.start()
 
 	loadingtext = new createjs.Text "Loading."
 	loadingtext.x = stage.width/2
