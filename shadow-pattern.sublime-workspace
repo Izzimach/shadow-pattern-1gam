@@ -15,7 +15,7 @@
 			"file": "app/init-load.coffee",
 			"settings":
 			{
-				"buffer_size": 2980,
+				"buffer_size": 2951,
 				"line_ending": "Windows"
 			}
 		},
@@ -23,7 +23,7 @@
 			"file": "app/player.coffee",
 			"settings":
 			{
-				"buffer_size": 5041,
+				"buffer_size": 5097,
 				"line_ending": "Windows"
 			}
 		},
@@ -31,15 +31,24 @@
 			"file": "app/creatures/Creature.coffee",
 			"settings":
 			{
-				"buffer_size": 1656,
+				"buffer_size": 1658,
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/creatures/Monster.coffee",
+			"settings":
+			{
+				"buffer_size": 910,
+				"line_ending": "Windows",
+				"name": "Creature = require 'creatures/Creature'"
 			}
 		},
 		{
 			"file": "app/dungeon.coffee",
 			"settings":
 			{
-				"buffer_size": 4146,
+				"buffer_size": 4343,
 				"line_ending": "Windows"
 			}
 		},
@@ -168,6 +177,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"ispassable",
 			"@step",
 			"useraction",
 			"playeraction",
@@ -202,15 +212,15 @@
 					"file": "app/init-load.coffee",
 					"settings":
 					{
-						"buffer_size": 2980,
+						"buffer_size": 2951,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1088,
-								1088
+								2187,
+								2189
 							]
 						],
 						"settings":
@@ -219,7 +229,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 476.0,
+						"translation.y": 354.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -229,15 +239,15 @@
 					"file": "app/player.coffee",
 					"settings":
 					{
-						"buffer_size": 5041,
+						"buffer_size": 5097,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3697,
-								3697
+								3881,
+								3881
 							]
 						],
 						"settings":
@@ -256,41 +266,15 @@
 					"file": "app/creatures/Creature.coffee",
 					"settings":
 					{
-						"buffer_size": 1656,
+						"buffer_size": 1658,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1654,
-								1654
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 200.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "app/dungeon.coffee",
-					"settings":
-					{
-						"buffer_size": 4146,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2461,
-								2461
+								921,
+								921
 							]
 						],
 						"settings":
@@ -299,13 +283,67 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 762.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/creatures/Monster.coffee",
+					"settings":
+					{
+						"buffer_size": 910,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								647,
+								647
+							]
+						],
+						"settings":
+						{
+							"auto_name": "Creature = require 'creatures/Creature'",
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 4,
+					"file": "app/dungeon.coffee",
+					"settings":
+					{
+						"buffer_size": 4343,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3388,
+								3388
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1148.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
 					"file": "app/creatures/CreatureList.coffee",
 					"settings":
 					{
@@ -332,7 +370,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 6,
 					"file": "app/creatures/MonsterSpriteSheet.coffee",
 					"settings":
 					{
@@ -359,7 +397,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 7,
 					"file": "app/playerspritesheet.coffee",
 					"settings":
 					{
@@ -386,7 +424,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 8,
 					"file": "app/dungeontilemap.coffee",
 					"settings":
 					{

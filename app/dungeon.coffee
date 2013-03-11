@@ -39,22 +39,26 @@ exports.createDungeon = (roguelikebase) ->
 	dungeon.addPlayer = (player, x, y) ->
 		@player = player
 		player.putInDungeon this, x, y
+		roguelikebase.engine.addActor player
 		@visiblitychanged = true
 
 	dungeon.removePlayer = (player) ->
 		@player = null
 		player.removeFromDungeon this
+		roguelikebase.engine.removeActor player
 		@visiblitychanged = true
 
 	dungeon.addMonster = (monster, x, y) ->
 		@monsters.push monster
 		monster.putInDungeon this,x,y
+		roguelikebase.engine.addActor monster
 		@visiblitychanged = true
 
 	dungeon.removeMonster = (monster) ->
 		monsterindex = @monsters.indexOf monster
 		@monsters.splice monsterindex, 1
 		monster.removeFromDungeon this
+		roguelikebase.engine.removeActor monster
 		@visiblitychanged = true
 
 	dungeon.pickFloorTile = ->
@@ -105,10 +109,10 @@ exports.createDungeon = (roguelikebase) ->
 
 	dungeon.noMonstersAt = (x,y) ->
 		for monster in @monsters
-			return false if monster.x == x and monster.y == y
+			return false if monster.x is x and monster.y is y
 		return true
 
-	dungeon.isPassable = (x,y) -> (@tiles.isTilePassable x,y) and (@noMonstersAt x,y)
+	dungeon.isPassable = (x,y,ignoremonsters) -> (@tiles.isTilePassable x,y) and (ignoremonsters or @noMonstersAt x,y)
 
 	dungeon.placeStairs()
 

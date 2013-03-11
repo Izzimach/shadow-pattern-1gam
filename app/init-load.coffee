@@ -50,14 +50,17 @@ exports.start = ->
 		dungeon = dungeonmodule.createDungeon roguelikebase
 		dungeonmodule.installDungeon roguelikebase, dungeon
 
+		engine = new ROT.Engine()
+		roguelikebase.engine = engine
+
 		player = playermodule.createPlayer roguelikebase
 		roguelikebase.player = player
 		playerstarttile = dungeon.upstairstile
 		dungeon.addPlayer player, playerstarttile.tilex, playerstarttile.tiley
 
-		Creature = require 'creatures/Creature'
+		Monster = require 'creatures/Monster'
 		creaturestats = (require 'creatures/CreatureList').DefaultCreature
-		monster = new Creature "bob", creaturestats, roguelikebase
+		monster = new Monster "bob", creaturestats, roguelikebase
 		monsterstarttile = dungeon.pickFloorTile()
 		dungeon.addMonster monster, monsterstarttile.tilex, monsterstarttile.tiley
 
@@ -65,11 +68,6 @@ exports.start = ->
 		stage.addChild infotext
 
 		stage.update()
-
-		engine = new ROT.Engine()
-		engine.addActor player
-
-		roguelikebase.engine = engine
 
 		roguelikebase.engine.start()
 

@@ -6,7 +6,7 @@
 MonsterSpriteData = require 'creatures/MonsterSpriteSheet'
 
 module.exports = class Creature
-	constructor: (@name, basestats, roguelikebase) ->
+	constructor: (@name, @basestats, @roguelikebase) ->
 		@visibletiles = []
 		if basestats.spritename and basestats.spritename in MonsterSpriteData.Names
 			@sprite = MonsterSpriteData.createSprite basestats.spritename, roguelikebase

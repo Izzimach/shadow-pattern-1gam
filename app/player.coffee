@@ -53,6 +53,7 @@ exports.createPlayer = (roguelikebase) ->
 	compositeplayergraphic.addChild playerweapon2graphic
 
 	playerdata = {
+		name: "Player",
 		sprite: compositeplayergraphic,
 		dungeon: null,
 		lightID:-1,
@@ -106,7 +107,7 @@ exports.createPlayer = (roguelikebase) ->
 	playerdata.step = (dx,dy) ->
 		newx = @x + dx
 		newy = @y + dy
-		if @dungeon.isPassable newx,newy
+		if @dungeon.isPassable newx,newy, false
 			@moveToTile newx,newy
 			@dungeon.updateVisibleObjects()
 			@setViewCenter newx,newy
@@ -118,6 +119,7 @@ exports.createPlayer = (roguelikebase) ->
 	playerdata.act = ->
 		# halt the engine, and wait for keyboard input
 		roguelikebase.engine.lock()
+		roguelikebase.stage.update()
 		window.addEventListener "keydown", this
 
 	playerdata.playerturnover = ->
