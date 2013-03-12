@@ -37,29 +37,41 @@ exports.createDungeon = (roguelikebase) ->
 	}
 
 	dungeon.addPlayer = (player, x, y) ->
+		if @player isnt null
+			@player.removedFromDungeon this
+			roguelikebase.engine.removeActor @player
 		@player = player
-		player.putInDungeon this, x, y
+		player.addedToDungeon this, x, y
 		roguelikebase.engine.addActor player
 		@visiblitychanged = true
 
 	dungeon.removePlayer = (player) ->
-		@player = null
-		player.removeFromDungeon this
-		roguelikebase.engine.removeActor player
-		@visiblitychanged = true
+		if @player is player
+			@player = null
+			player.removedFromDungeon this
+			roguelikebase.engine.removeActor player
+			@visiblitychanged = true
 
 	dungeon.addMonster = (monster, x, y) ->
-		@monsters.push monster
-		monster.putInDungeon this,x,y
-		roguelikebase.engine.addActor monster
-		@visiblitychanged = true
+		if monster not in @monsters
+			@monsters.push monster
+			monster.addedToDungeon this,x,y
+			roguelikebase.engine.addActor monster
+			@visiblitychanged = true
 
 	dungeon.removeMonster = (monster) ->
-		monsterindex = @monsters.indexOf monster
-		@monsters.splice monsterindex, 1
-		monster.removeFromDungeon this
-		roguelikebase.engine.removeActor monster
-		@visiblitychanged = true
+		if monster in @monsters
+			monsterindex = @monsters.indexOf monster
+			@monsters.splice monsterindex, 1
+			monster.removedFromDungeon this
+			roguelikebase.engine.removeActor monster
+			@visiblitychanged = true
+
+	dungeon.removeCreature = (creature) ->
+		if creature is @player
+			@removePlayer creature
+		else
+			@removeMonster creature
 
 	dungeon.pickFloorTile = ->
 		# start at a random location and scan for the first
@@ -107,12 +119,12 @@ exports.createDungeon = (roguelikebase) ->
 	dungeon.updateLight = (id, x) -> tilemap.updateLight id,x
 	dungeon.unregisterLight = (id) -> tilemap.unregisterLight id
 
-	dungeon.noMonstersAt = (x,y) ->
+	dungeon.monsterAt = (x,y) ->
 		for monster in @monsters
-			return false if monster.x is x and monster.y is y
-		return true
+			return monster if monster.x is x and monster.y is y
+		null
 
-	dungeon.isPassable = (x,y,ignoremonsters) -> (@tiles.isTilePassable x,y) and (ignoremonsters or @noMonstersAt x,y)
+	dungeon.isPassable = (x,y,ignoremonsters) -> (@tiles.isTilePassable x,y) and (ignoremonsters or (@monsterAt x,y) is null)
 
 	dungeon.placeStairs()
 

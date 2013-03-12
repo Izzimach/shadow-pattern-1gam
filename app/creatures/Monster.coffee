@@ -4,7 +4,7 @@ module.exports = class Monster extends Creature
 	constructor : (name, basestats, roguelikebase) ->
 		super name, basestats, roguelikebase
 
-	putInDungeon: (dungeon, x, y) ->
+	addedToDungeon: (dungeon, x, y) ->
 		super dungeon,x,y
 		@target = null
 		@passableCallback = (x,y) =>
@@ -29,4 +29,8 @@ module.exports = class Monster extends Creature
 			@target = @roguelikebase.player
 
 	attackTarget: (target) ->
-		console.log @name, "attacks", @target.name
+		message = @name + " attacks " + @target.name
+		@roguelikebase.messagelog.addMessage message
+		@target.applyDamage @basestats.basedamage
+		if @target.health < 0
+			@roguelikebase.messagelog.addMessage @name + " kills " + @target.name + "!"

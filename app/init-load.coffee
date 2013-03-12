@@ -1,9 +1,10 @@
 exports.start = ->
 	canvas = document.getElementById "shadowPatternCanvas"
-	stage = new createjs.Stage canvas
 
 	roguelikebase = {}
-	roguelikebase.stage = stage
+	roguelikebase.stage = new createjs.Stage canvas
+
+	roguelikebase.engine = new ROT.Engine()
 
 	manifest = [
 		{src:"images/rltiles-dungeon.png", id:"dungeonspritesheet"},
@@ -41,17 +42,14 @@ exports.start = ->
 		dungeonmodule = require 'dungeon'
 		playermodule = require 'player'
 
-		stage.removeAllChildren()
+		roguelikebase.stage.removeAllChildren()
 
 		dungeonview = new createjs.Container()
 		dungeonview.name = "dungeonview"
-		stage.addChild dungeonview
+		roguelikebase.stage.addChild dungeonview
 
 		dungeon = dungeonmodule.createDungeon roguelikebase
 		dungeonmodule.installDungeon roguelikebase, dungeon
-
-		engine = new ROT.Engine()
-		roguelikebase.engine = engine
 
 		player = playermodule.createPlayer roguelikebase
 		roguelikebase.player = player
@@ -64,18 +62,37 @@ exports.start = ->
 		monsterstarttile = dungeon.pickFloorTile()
 		dungeon.addMonster monster, monsterstarttile.tilex, monsterstarttile.tiley
 
-		infotext = new createjs.Text "Argh!\nurgh", "Arial", "#08f"
-		stage.addChild infotext
+		roguelikebase.messagelog = new createjs.Text "Argh!\nurgh", "Arial", "#08f"
+		roguelikebase.messagelog.messages = []
+		roguelikebase.messagelog.addMessage = (message) ->
+			if @messages.length > 10
+				@messages.splice 0,@messages.length-10
+			@messages.push message
+			@text = @messages.join "\n"
+		roguelikebase.stage.addChild roguelikebase.messagelog
 
-		stage.update()
+		roguelikebase.playerinfo = new createjs.Text "Player Data:", "Arial", "#fff"
+		roguelikebase.playerinfo.x = 500
+		roguelikebase.stage.addChild roguelikebase.playerinfo
+
+		graphics = new createjs.Graphics().beginFill("#ff0000").drawRect(0, 0, 100, 100);
+		roguelikebase.inventory = new createjs.Shape graphics
+		roguelikebase.inventory.x = 600
+		roguelikebase.inventory.y = 400
+		roguelikebase.stage.addChild roguelikebase.inventory
+
+		roguelikebase.stage.update()
 
 		roguelikebase.engine.start()
 
-	loadingtext = new createjs.Text "Loading."
-	loadingtext.x = stage.width/2
-	loadingtext.y = stage.height/2
-	stage.addChild loadingtext
-	stage.update()
+	addLoadingText = (stage) ->
+		loadingtext = new createjs.Text "Loading."
+		loadingtext.x = stage.width/2
+		loadingtext.y = stage.height/2
+		stage.addChild loadingtext
+		stage.update()
+
+	addLoadingText roguelikebase.stage
 
 	preload.addEventListener "progress", (event) ->
 		loadingtext.text = loadingtext.text + "."

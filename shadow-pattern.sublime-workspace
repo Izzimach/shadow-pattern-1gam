@@ -12,73 +12,6 @@
 	"buffers":
 	[
 		{
-			"file": "app/init-load.coffee",
-			"settings":
-			{
-				"buffer_size": 2951,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/player.coffee",
-			"settings":
-			{
-				"buffer_size": 5097,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/creatures/Creature.coffee",
-			"settings":
-			{
-				"buffer_size": 1658,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/creatures/Monster.coffee",
-			"settings":
-			{
-				"buffer_size": 910,
-				"line_ending": "Windows",
-				"name": "Creature = require 'creatures/Creature'"
-			}
-		},
-		{
-			"file": "app/dungeon.coffee",
-			"settings":
-			{
-				"buffer_size": 4343,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/creatures/CreatureList.coffee",
-			"settings":
-			{
-				"buffer_size": 169,
-				"line_ending": "Windows",
-				"name": "# list of creatures for Shadow Pattern"
-			}
-		},
-		{
-			"file": "app/creatures/MonsterSpriteSheet.coffee",
-			"settings":
-			{
-				"buffer_size": 659,
-				"line_ending": "Windows",
-				"name": "# sprite map for monsters"
-			}
-		},
-		{
-			"file": "app/playerspritesheet.coffee",
-			"settings":
-			{
-				"buffer_size": 700,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "app/dungeontilemap.coffee",
 			"settings":
 			{
@@ -139,10 +72,15 @@
 	},
 	"file_history":
 	[
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/dungeontilemap.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/playerspritesheet.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/init-load.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/MonsterSpriteSheet.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/CreatureList.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/Monster.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/Creature.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/dungeon.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/player.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/dungeontilemap.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/assets/index.html",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/playerspritesheet.js",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/Creature.coffee",
@@ -150,7 +88,6 @@
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/README.md",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/init-load.js",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/dungeon.js",
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/player.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/chromakey.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/simplestrat/src-browser/simplestrat/preloader.cljs",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/public/js/shadowpattern.js",
@@ -204,227 +141,11 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app/init-load.coffee",
-					"settings":
-					{
-						"buffer_size": 2951,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2187,
-								2189
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 354.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "app/player.coffee",
-					"settings":
-					{
-						"buffer_size": 5097,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3881,
-								3881
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1600.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "app/creatures/Creature.coffee",
-					"settings":
-					{
-						"buffer_size": 1658,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								921,
-								921
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "app/creatures/Monster.coffee",
-					"settings":
-					{
-						"buffer_size": 910,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								647,
-								647
-							]
-						],
-						"settings":
-						{
-							"auto_name": "Creature = require 'creatures/Creature'",
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "app/dungeon.coffee",
-					"settings":
-					{
-						"buffer_size": 4343,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3388,
-								3388
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1148.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "app/creatures/CreatureList.coffee",
-					"settings":
-					{
-						"buffer_size": 169,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								137,
-								137
-							]
-						],
-						"settings":
-						{
-							"auto_name": "# list of creatures for Shadow Pattern",
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "app/creatures/MonsterSpriteSheet.coffee",
-					"settings":
-					{
-						"buffer_size": 659,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								71,
-								71
-							]
-						],
-						"settings":
-						{
-							"auto_name": "# sprite map for monsters",
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "app/playerspritesheet.coffee",
-					"settings":
-					{
-						"buffer_size": 700,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
 					"file": "app/dungeontilemap.coffee",
 					"settings":
 					{

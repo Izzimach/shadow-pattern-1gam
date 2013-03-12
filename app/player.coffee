@@ -53,16 +53,18 @@ exports.createPlayer = (roguelikebase) ->
 	compositeplayergraphic.addChild playerweapon2graphic
 
 	playerdata = {
-		name: "Player",
+		name: "You",
+		health: 10,
 		sprite: compositeplayergraphic,
 		dungeon: null,
 		lightID:-1,
+		basestats: (require 'creatures/CreatureList').DefaultPlayer,
 		# x and y here are tile coordinates, not pixel coordinates
 		x:0,
 		y:0
 	}
 
-	playerdata.putInDungeon = (dungeon, x, y) ->
+	playerdata.addedToDungeon = (dungeon, x, y) ->
 		@dungeon = dungeon
 		if dungeon.dungeonview isnt null
 			dungeon.dungeonview.addChild @sprite	
@@ -71,7 +73,7 @@ exports.createPlayer = (roguelikebase) ->
 		@moveToTile x,y
 		@setViewCenter x,y
 
-	playerdata.removeFromDungeon = (dungeon) ->
+	playerdata.removedFromDungeon = (dungeon) ->
 		if dungeon.dungeonview isnt null
 			dungeon.dungeonview.removeChild @sprite
 
@@ -109,9 +111,21 @@ exports.createPlayer = (roguelikebase) ->
 		newy = @y + dy
 		if @dungeon.isPassable newx,newy, false
 			@moveToTile newx,newy
-			@dungeon.updateVisibleObjects()
 			@setViewCenter newx,newy
 			roguelikebase.stage.update()
+		else
+			monster = @dungeon.monsterAt newx,newy
+			console.log monster
+			if monster
+				roguelikebase.messagelog.addMessage @name + " attack " + monster.name
+				monster.applyDamage @basestats.basedamage
+				if monster.health < 0
+					roguelikebase.messagelog.addMessage "You have killed " + monster.name + "!"
+			else
+				roguelikebase.messagelog.addMessage "You run into a wall"
+
+	playerdata.applyDamage = (amount) ->
+		@health = @health - amount
 
 	# for ROT.engine and ROT.scheduler
 	playerdata.getSpeed = -> 100; # standard actor speed
@@ -119,6 +133,7 @@ exports.createPlayer = (roguelikebase) ->
 	playerdata.act = ->
 		# halt the engine, and wait for keyboard input
 		roguelikebase.engine.lock()
+		@dungeon.updateVisibleObjects()
 		roguelikebase.stage.update()
 		window.addEventListener "keydown", this
 

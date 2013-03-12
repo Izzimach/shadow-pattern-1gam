@@ -8,10 +8,11 @@ MonsterSpriteData = require 'creatures/MonsterSpriteSheet'
 module.exports = class Creature
 	constructor: (@name, @basestats, @roguelikebase) ->
 		@visibletiles = []
+		@health = @basestats.health
 		if basestats.spritename and basestats.spritename in MonsterSpriteData.Names
 			@sprite = MonsterSpriteData.createSprite basestats.spritename, roguelikebase
 
-	putInDungeon: (dungeon, x, y) ->
+	addedToDungeon: (dungeon, x, y) ->
 		@dungeon = dungeon
 		if dungeon.dungeonview isnt null and @sprite isnt null
 			dungeon.dungeonview.addChild @sprite
@@ -19,7 +20,7 @@ module.exports = class Creature
 		#@lightID = @dungeon.registerLight []
 		@moveToTile x,y
 
-	removeFromDungeon : (dungeon) ->
+	removedFromDungeon : (dungeon) ->
 		if dungeon.dungeonview isnt null and @sprite isnt null
 			dungeon.dungeonview.removeChild @sprite
 
@@ -57,5 +58,9 @@ module.exports = class Creature
 	act : ->
 		null
 
-	getSpeed: -> 100
+	getSpeed: -> @basestats.speed
 
+	applyDamage: (damageamount) ->
+		@health = @health - damageamount
+		if @health < 0
+			@dungeon.removeCreature this
