@@ -6,7 +6,8 @@
 MonsterSpriteData = require 'creatures/MonsterSpriteSheet'
 
 module.exports = class Creature
-	constructor: (@name, @basestats, @roguelikebase) ->
+	constructor: (@basestats, @roguelikebase, name) ->
+		if name then @name = name else @name = @basestats.defaultname
 		@visibletiles = []
 		@health = @basestats.health
 		if basestats.spritename and basestats.spritename in MonsterSpriteData.Names

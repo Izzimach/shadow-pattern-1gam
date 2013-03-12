@@ -5,8 +5,8 @@ exports.createDungeon = (roguelikebase) ->
 
 	#stage.addChild bmpAnim
 
-	dungeonwidth = 80
-	dungeonheight = 40
+	dungeonwidth = 30
+	dungeonheight = 30
 	tilewidth = 32
 	tileheight = 32
 	tilemap = tilemapmodule.createDungeonTilemap dungeonwidth, dungeonheight, tilewidth, tileheight, spriteSheet
@@ -73,6 +73,19 @@ exports.createDungeon = (roguelikebase) ->
 		else
 			@removeMonster creature
 
+	dungeon.addItem = (item, x, y) ->
+		if item not in @items
+			@items.push item
+			item.addedToDungeon this,x,y
+			@visibilitychanged = true
+	
+	dungeon.removeItem = (item) ->
+		if item in @items
+			itemindex = @items.indexOf item
+			@items.splice itemindex,1
+			item.removedFromDungeon this,x,y
+			@visibilitychanged = true
+
 	dungeon.pickFloorTile = ->
 		# start at a random location and scan for the first
 		# found floor tile
@@ -108,7 +121,7 @@ exports.createDungeon = (roguelikebase) ->
 		# update visibility of monsters
 		monster.checkIsVisible() for monster in @monsters
 		# update visibility of items
-		item.CheckIsVisible() for item in @items
+		item.checkIsVisible() for item in @items
 		@visibilitychanged = false
 
 	dungeon.setVisibility = (x) ->

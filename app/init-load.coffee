@@ -58,12 +58,19 @@ exports.start = ->
 
 		Monster = require 'creatures/Monster'
 		creaturestats = (require 'creatures/CreatureList').DefaultCreature
-		monster = new Monster "bob", creaturestats, roguelikebase
+		monster = new Monster creaturestats, roguelikebase
 		monsterstarttile = dungeon.pickFloorTile()
 		dungeon.addMonster monster, monsterstarttile.tilex, monsterstarttile.tiley
 
+		Item = require 'items/Item'
+		itemstats = (require 'items/ItemList').BasicSword
+		someitem = new Item itemstats, roguelikebase
+		itemstarttile = dungeon.pickFloorTile()
+		dungeon.addItem someitem, itemstarttile.tilex, itemstarttile.tiley
+
 		roguelikebase.messagelog = new createjs.Text "Argh!\nurgh", "Arial", "#08f"
 		roguelikebase.messagelog.messages = []
+		roguelikebase.messagelog.x = 400
 		roguelikebase.messagelog.addMessage = (message) ->
 			if @messages.length > 10
 				@messages.splice 0,@messages.length-10
@@ -72,12 +79,12 @@ exports.start = ->
 		roguelikebase.stage.addChild roguelikebase.messagelog
 
 		roguelikebase.playerinfo = new createjs.Text "Player Data:", "Arial", "#fff"
-		roguelikebase.playerinfo.x = 500
+		#roguelikebase.playerinfo.x = 500
 		roguelikebase.stage.addChild roguelikebase.playerinfo
 
 		graphics = new createjs.Graphics().beginFill("#ff0000").drawRect(0, 0, 100, 100);
 		roguelikebase.inventory = new createjs.Shape graphics
-		roguelikebase.inventory.x = 600
+		#roguelikebase.inventory.x = 600
 		roguelikebase.inventory.y = 400
 		roguelikebase.stage.addChild roguelikebase.inventory
 

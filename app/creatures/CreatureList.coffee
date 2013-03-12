@@ -2,6 +2,7 @@
 
 # default stats
 exports.DefaultCreature = {
+	defaultname: "A grumpy goblin",
 	speed: 100,
 	health: 4,
 	basedamage: 2,
@@ -13,6 +14,7 @@ exports.DefaultCreature = {
 # default player stats
 
 exports.DefaultPlayer = {
+	defaultname : "You",
 	speed: 100,
 	health: 20,
 	basedamage: 5
