@@ -30,6 +30,11 @@ exports.createPlayer = (roguelikebase) ->
 	playerclothesgraphic.setplayericon "chainmail shirt"
 	#playerclothesgraphic.x = 8
 
+	playerhatgraphic = new PlayerIcon
+	playerhatgraphic.setplayericon "horned helmet"
+	playerhatgraphic.x = 0
+	playerhatgraphic.y = -8
+
 	playershoesgraphic = new PlayerIcon
 	playershoesgraphic.setplayericon "red chainmail shoes"
 	playershoesgraphic.y = 8
@@ -39,9 +44,10 @@ exports.createPlayer = (roguelikebase) ->
 	playerweapon1graphic.x = -8
 
 	playerweapon2graphic = new PlayerIcon
-	playerweapon2graphic.setplayericon "sword, offhand"
+	playerweapon2graphic.setplayericon "sword,offhand"
 	playerweapon2graphic.x = 8
 	playerweapon2graphic.scaleX = -1
+	playerweapon2graphic.visible = false
 
 	compositeplayergraphic = new createjs.Container()
 	compositeplayergraphic.addChild playershadowgraphic
@@ -49,6 +55,7 @@ exports.createPlayer = (roguelikebase) ->
 	compositeplayergraphic.addChild playerbodygraphic
 	compositeplayergraphic.addChild playershoesgraphic
 	compositeplayergraphic.addChild playerclothesgraphic
+	compositeplayergraphic.addChild playerhatgraphic
 	compositeplayergraphic.addChild playerweapon1graphic
 	compositeplayergraphic.addChild playerweapon2graphic
 
@@ -61,7 +68,13 @@ exports.createPlayer = (roguelikebase) ->
 		basestats: (require 'creatures/CreatureList').DefaultPlayer,
 		# x and y here are tile coordinates, not pixel coordinates
 		x:0,
-		y:0
+		y:0,
+		inventory: [],
+
+		# current wielded items
+		weapon: null,
+		armor: null,
+		hat: null
 	}
 
 	playerdata.addedToDungeon = (dungeon, x, y) ->
@@ -107,25 +120,49 @@ exports.createPlayer = (roguelikebase) ->
 		dungeonview.y = dungeonscrollY
 
 	playerdata.step = (dx,dy) ->
+		# return true if the player's turn is over
 		newx = @x + dx
 		newy = @y + dy
 		if @dungeon.isPassable newx,newy, false
 			@moveToTile newx,newy
 			@setViewCenter newx,newy
-			roguelikebase.stage.update()
+			# pick up any items here
+			pickupitems = []
+			for item in @dungeon.items
+				if item.x is newx and item.y is newy
+					pickupitems.push item
+			for pickupme in pickupitems
+				@pickupItem pickupme
+			return true
 		else
 			monster = @dungeon.monsterAt newx,newy
 			console.log monster
 			if monster
-				roguelikebase.messagelog.addMessage @name + " attack " + monster.name
-				monster.applyDamage @basestats.basedamage
+				damageamount = @basestats.basedamage
+				if @weapon and @weapon.weapondamage
+					damageamount = @weapon.weapondamage
+				damageamount = monster.applyDamage damageamount
+				roguelikebase.messagelog.addMessage "#{@name} attack #{monster.name} for #{damageamount} damage"
 				if monster.health < 0
-					roguelikebase.messagelog.addMessage "You have killed " + monster.name + "!"
+					roguelikebase.messagelog.addMessage "You have killed #{monster.name}!"
+				return true
 			else
 				roguelikebase.messagelog.addMessage "You run into a wall"
+				roguelikebase.stage.update()
+				return false # doesn't count as an action
 
 	playerdata.applyDamage = (amount) ->
+		# reduce damage by armor provided via items
+		if @weapon and @weapon.providesarmor
+			amount = amount - @weapon.providesarmor
+		if @armor and @armor.providesarmor
+			amount = amount - @armor.providesarmor
+		if @hat and @hat.providesarmor
+			amount = amount - @hat.providesarmor
+		if amount < 1
+			amount = 1
 		@health = @health - amount
+		return amount
 
 	# for ROT.engine and ROT.scheduler
 	playerdata.getSpeed = -> 100; # standard actor speed
@@ -139,7 +176,23 @@ exports.createPlayer = (roguelikebase) ->
 
 	playerdata.playerturnover = ->
 		window.removeEventListener "keydown", this
+		roguelikebase.stage.update()
 		roguelikebase.engine.unlock()
+
+	playerdata.updatePlayerSprite = ->
+		if @weapon
+			playerweapon1graphic.setplayericon @weapon.spritename
+		else
+			playerweapon1graphic.visible = false
+		# set default clothes as a brown robe if the player isn't wearing armor
+		if @armor
+			playerclothesgraphic.setplayericon @armor.spritename
+		else
+			playerclothesgraphic.setplayericon "brown robes"
+		if @hat
+			playerhatgraphic.setplayericon @hat.spritename
+		else
+			playerhatgraphic.visible = false
 
 	# initialize keyboard input
 	playerdata.handleEvent = (evt) ->
@@ -166,10 +219,17 @@ exports.createPlayer = (roguelikebase) ->
 	    		playeraction = -> playerdata.step -1,1
 	    	else if evt.keyCode is ROT.VK_N
 	    		playeraction = -> playerdata.step 1,1
-	    	if playeraction isnt null
-	    		playeraction()
+	    	if playeraction isnt null and playeraction()
 	    		@playerturnover()
 	    if evt.ctrlKey and evt.keyCode is 90
         	alert "Ctrl-Z"
-	
+
+	playerdata.pickupItem = (item) ->
+		@dungeon.removeItem item
+		item.pickedUpBy this
+		@inventory.push item
+		roguelikebase.messagelog.addMessage "You pick up #{item.name}"
+		return true # player's turn is over
+
+	playerdata.updatePlayerSprite()
 	return playerdata

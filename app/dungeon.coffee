@@ -83,7 +83,7 @@ exports.createDungeon = (roguelikebase) ->
 		if item in @items
 			itemindex = @items.indexOf item
 			@items.splice itemindex,1
-			item.removedFromDungeon this,x,y
+			item.removedFromDungeon this
 			@visibilitychanged = true
 
 	dungeon.pickFloorTile = ->

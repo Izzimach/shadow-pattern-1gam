@@ -1,6 +1,6 @@
 exports.BasicSword = {
 	spritename : "sword",
-	defaultname: "A sword",
+	defaultname: "a sword",
 	description: "Just your everyday sword",
 	itemtype : "weapon",
 	weapondamage: 5,
@@ -8,7 +8,7 @@ exports.BasicSword = {
 }
 
 exports.Chainmail = {
-	spruitename : "chainmail",
+	spritename : "chainmail",
 	defaultname: "Chainmail",
 	description: "A simple coat made of metal rings",
 	itemtype : "chest armor",
@@ -18,7 +18,7 @@ exports.Chainmail = {
 
 exports.JauntyHat = {
 	spritename: "jaunty hat",
-	defaultname: "A jaunty hat",
+	defaultname: "a jaunty hat",
 	decription: "The feather really complements your ensemble",
 	itemtype : "head armor",
 	providesarmor: 1,

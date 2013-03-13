@@ -2,7 +2,7 @@ ItemSpriteData = require 'items/ItemSpriteSheet'
 
 module.exports = class Item
 	constructor: (@basestats, @roguelikebase, name=null) ->
-		if name then @name = name else name = @basestats.defaultname
+		if name then @name = name else @name = @basestats.defaultname
 		if basestats.spritename and basestats.spritename in ItemSpriteData.Names
 			@sprite = ItemSpriteData.createSprite basestats.spritename, roguelikebase
 

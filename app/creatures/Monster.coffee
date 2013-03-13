@@ -29,8 +29,8 @@ module.exports = class Monster extends Creature
 			@target = @roguelikebase.player
 
 	attackTarget: (target) ->
-		message = @name + " attacks " + @target.name
+		damageamount = @target.applyDamage @basestats.basedamage
+		message = @name + " attacks " + @target.name + " for " + damageamount + " damage"
 		@roguelikebase.messagelog.addMessage message
-		@target.applyDamage @basestats.basedamage
 		if @target.health < 0
 			@roguelikebase.messagelog.addMessage @name + " kills " + @target.name + "!"

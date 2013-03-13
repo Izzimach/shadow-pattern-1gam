@@ -65,3 +65,4 @@ module.exports = class Creature
 		@health = @health - damageamount
 		if @health < 0
 			@dungeon.removeCreature this
+		return damageamount
