@@ -24,3 +24,4 @@ createSprite = (spritename, roguelikebase) ->
 
 exports.Names = ItemSpriteNames
 exports.createSprite = createSprite
+exports.itemtilesize = 32

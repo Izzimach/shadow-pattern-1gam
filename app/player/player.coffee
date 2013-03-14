@@ -1,3 +1,7 @@
+InventoryDisplay = require 'player/InventoryDisplay'
+PlayerInfoDisplay = require 'player/PlayerInfoDisplay'
+CreatureList = require 'creatures/CreatureList'
+
 exports.createPlayer = (roguelikebase) ->
 	playerframedata = (require 'player/playerspritesheet').FrameData
 
@@ -22,6 +26,7 @@ exports.createPlayer = (roguelikebase) ->
 
 	playercloakgraphic = new PlayerIcon
 	playercloakgraphic.setplayericon "red cloak"
+	playercloakgraphic.visible = false
 
 	playerbodygraphic = new PlayerIcon
 	playerbodygraphic.setplayericon "human1 female"	
@@ -36,7 +41,7 @@ exports.createPlayer = (roguelikebase) ->
 	playerhatgraphic.y = -8
 
 	playershoesgraphic = new PlayerIcon
-	playershoesgraphic.setplayericon "red chainmail shoes"
+	playershoesgraphic.setplayericon "brown shoes"
 	playershoesgraphic.y = 8
 
 	playerweapon1graphic = new PlayerIcon
@@ -60,12 +65,14 @@ exports.createPlayer = (roguelikebase) ->
 	compositeplayergraphic.addChild playerweapon2graphic
 
 	playerdata = {
+		roguelikebase : roguelikebase,
 		name: "You",
 		health: 10,
+		maxhealth : 10,
 		sprite: compositeplayergraphic,
 		dungeon: null,
 		lightID:-1,
-		basestats: (require 'creatures/CreatureList').DefaultPlayer,
+		basestats: CreatureList.DefaultPlayer,
 		# x and y here are tile coordinates, not pixel coordinates
 		x:0,
 		y:0,
@@ -78,7 +85,8 @@ exports.createPlayer = (roguelikebase) ->
 		hat: null
 	}
 
-	playerdata.inventorywindow = new (require 'player/InventoryDisplay') roguelikebase, playerdata, 20,300
+	playerdata.inventorywindow = new InventoryDisplay playerdata, 20,300
+	playerdata.infowindow = new PlayerInfoDisplay playerdata,0,0
 
 	playerdata.addedToDungeon = (dungeon, x, y) ->
 		@dungeon = dungeon
@@ -165,6 +173,7 @@ exports.createPlayer = (roguelikebase) ->
 		if amount < 1
 			amount = 1
 		@health = @health - amount
+		@infowindow.playerinfochanged()
 		return amount
 
 	# for ROT.engine and ROT.scheduler

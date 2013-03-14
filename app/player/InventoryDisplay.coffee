@@ -1,14 +1,17 @@
 module.exports = class InventoryDisplay
-	constructor: (@roguelikebase,@player,x,y) ->
+	constructor: (@player,x,y) ->
+		@roguelikebase = @player.roguelikebase
+		
 		@sprite = new createjs.Container()
 		@sprite.x = x
 		@sprite.y = y
 
 		@tilesacross = 4
 		@tilesdown = 4
-		@itemsize = 32
-		@itemhalfsize = 16
-		@itemspacing = 40
+		@itemsize = (require 'items/ItemSpriteSheet').itemtilesize
+		@itemhalfsize = @itemsize / 2
+		@inventorydisplaypadding = 4
+		@itemspacing = @itemsize + @inventorydisplaypadding
 
 		background = new createjs.Shape()
 		background.graphics.beginFill("#202020")

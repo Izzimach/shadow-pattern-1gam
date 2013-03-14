@@ -78,10 +78,6 @@ exports.start = ->
 			@text = @messages.join "\n"
 		roguelikebase.stage.addChild roguelikebase.messagelog
 
-		roguelikebase.playerinfo = new createjs.Text "Player Data:", "Arial", "#fff"
-		#roguelikebase.playerinfo.x = 500
-		roguelikebase.stage.addChild roguelikebase.playerinfo
-
 		roguelikebase.stage.update()
 
 		roguelikebase.engine.start()
