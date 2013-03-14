@@ -40,7 +40,7 @@ exports.start = ->
 		assets.images["items-alpha"] = chromakeymodule.chromaKeyImage assets.images["itemspritesheet"], [71,108,108]
 
 		dungeonmodule = require 'dungeon'
-		playermodule = require 'player'
+		playermodule = require 'player/player'
 
 		roguelikebase.stage.removeAllChildren()
 
@@ -81,12 +81,6 @@ exports.start = ->
 		roguelikebase.playerinfo = new createjs.Text "Player Data:", "Arial", "#fff"
 		#roguelikebase.playerinfo.x = 500
 		roguelikebase.stage.addChild roguelikebase.playerinfo
-
-		graphics = new createjs.Graphics().beginFill("#ff0000").drawRect(0, 0, 100, 100);
-		roguelikebase.inventory = new createjs.Shape graphics
-		#roguelikebase.inventory.x = 600
-		roguelikebase.inventory.y = 400
-		roguelikebase.stage.addChild roguelikebase.inventory
 
 		roguelikebase.stage.update()
 

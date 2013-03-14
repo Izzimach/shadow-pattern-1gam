@@ -20,14 +20,6 @@
 			}
 		},
 		{
-			"file": "app/creatures/Creature.coffee",
-			"settings":
-			{
-				"buffer_size": 1905,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "app/items/ItemSpriteSheet.coffee",
 			"settings":
 			{
@@ -48,59 +40,25 @@
 			"file": "app/init-load.coffee",
 			"settings":
 			{
-				"buffer_size": 4004,
+				"buffer_size": 3746,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "app/dungeon.coffee",
+			"file": "app/player/player.coffee",
 			"settings":
 			{
-				"buffer_size": 4988,
+				"buffer_size": 7644,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "app/creatures/Monster.coffee",
+			"file": "app/player/InventoryDisplay.coffee",
 			"settings":
 			{
-				"buffer_size": 1166,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/player.coffee",
-			"settings":
-			{
-				"buffer_size": 7463,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/creatures/CreatureList.coffee",
-			"settings":
-			{
-				"buffer_size": 425,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "vendor/rot.js",
-			"settings":
-			{
-				"buffer_size": 103276,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "\nexports.FrameData = {\n	# shadow\n	\"player shadow\" : [128,64,32,32,0,16,16],\n	\n	# human bodies\n	\"human1 female\" : [0,0,32,32,0,16,16],\n	\"human1 male\" : [32,0,32,32,0,16,16],\n\n	# clothes\n	\"yellow robes\" : [0,128,16,32,0,8,16],\n	\"brown robes\" : [16,128,16,32,0,8,16],\n	\"chainmail shirt\" : [48,192,16,32,0,8,16],\n\n	# cloaks\n	\"red cloak\" : [160,64,32,32,0,16,16],\n\n	# shoes\n	\"red shoes\" : [0,96,32,16,0,16,8],\n	\"red chainmail shoes\" : [0,112,32,16,0,16,8],\n\n	# hats\n	\"horned helmet\" : [0,448, 16,16, 0,8,8],\n\n	# weapons\n	\"battleaxe\" : [0,320,16,32,0,8,16],\n	\"black sword\" : [16,256,16,32,0,8,16],\n\n	# shields/off-hands\n	\"sword, offhand\" : [480,224,16,32,0,8,16],\n	\"sai, offhand\" : [464,224,16,32,0,8,16]\n}\n\n",
-			"file": "app/playerspritesheet.coffee",
-			"file_size": 733,
-			"file_write_time": 130071943731600917,
-			"settings":
-			{
-				"buffer_size": 702,
-				"line_ending": "Windows"
+				"buffer_size": 1356,
+				"line_ending": "Windows",
+				"name": "module.exports = class InventoryDisplay"
 			}
 		}
 	],
@@ -156,17 +114,18 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/vendor/rot.js",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/CreatureList.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/Monster.coffee",
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/assets/images/rltiles-items.png",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/dungeon.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/Creature.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/playerspritesheet.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/player.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/assets/images/rltiles-items.png",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/dungeontilemap.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/item.coffee",
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/playerspritesheet.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/init-load.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/MonsterSpriteSheet.coffee",
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/Creature.coffee",
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/dungeon.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/assets/index.html",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/playerspritesheet.js",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/Creature.coffee",
@@ -227,7 +186,7 @@
 	"groups":
 	[
 		{
-			"selected": 7,
+			"selected": 5,
 			"sheets":
 			[
 				{
@@ -248,7 +207,8 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage"
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -258,33 +218,6 @@
 				},
 				{
 					"buffer": 1,
-					"file": "app/creatures/Creature.coffee",
-					"settings":
-					{
-						"buffer_size": 1905,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1904,
-								1904
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 312.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "app/items/ItemSpriteSheet.coffee",
 					"settings":
 					{
@@ -301,7 +234,8 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage"
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -310,7 +244,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 2,
 					"file": "app/items/ItemList.coffee",
 					"settings":
 					{
@@ -328,28 +262,56 @@
 						"settings":
 						{
 							"auto_name": "exports.BasicSword = {",
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage"
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/init-load.coffee",
+					"settings":
+					{
+						"buffer_size": 3746,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3190,
+								3190
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 788.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 4,
-					"file": "app/init-load.coffee",
+					"file": "app/player/player.coffee",
 					"settings":
 					{
-						"buffer_size": 4004,
+						"buffer_size": 7644,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2572,
-								2572
+								7644,
+								7644
 							]
 						],
 						"settings":
@@ -358,166 +320,31 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 630.0,
+						"translation.y": 2748.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 5,
-					"file": "app/dungeon.coffee",
+					"file": "app/player/InventoryDisplay.coffee",
 					"settings":
 					{
-						"buffer_size": 4988,
+						"buffer_size": 1356,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2306,
-								2306
+								430,
+								430
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 622.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "app/creatures/Monster.coffee",
-					"settings":
-					{
-						"buffer_size": 1166,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1015,
-								1015
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "app/player.coffee",
-					"settings":
-					{
-						"buffer_size": 7463,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7357,
-								7357
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 2664.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "app/creatures/CreatureList.coffee",
-					"settings":
-					{
-						"buffer_size": 425,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								354,
-								354
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "vendor/rot.js",
-					"settings":
-					{
-						"buffer_size": 103276,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								15722,
-								15722
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 9092.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "app/playerspritesheet.coffee",
-					"settings":
-					{
-						"buffer_size": 702,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								488,
-								488
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"auto_name": "module.exports = class InventoryDisplay",
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
