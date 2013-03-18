@@ -33,7 +33,7 @@ exports.Banana = {
 	defaultname: "a banana",
 	description: "A tasty banana heals half of your health",
 	itemtype : "food",
-	healingamount : 0.5
+	healingfraction : 0.5
 }
 
 exports.allItems = [

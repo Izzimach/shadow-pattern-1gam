@@ -144,7 +144,7 @@ exports.createPlayer = (roguelikebase) ->
 					pickupitems.push item
 			for pickupme in pickupitems
 				@pickupItem pickupme
-			return true
+			@playerTurnOver()
 		else
 			monster = @dungeon.monsterAt newx,newy
 			console.log monster
@@ -156,7 +156,7 @@ exports.createPlayer = (roguelikebase) ->
 				roguelikebase.messagelog.addMessage "#{@name} attack #{monster.name} for #{damageamount} damage"
 				if monster.health < 0
 					roguelikebase.messagelog.addMessage "You have killed #{monster.name}!"
-				return true
+				@playerTurnOver()
 			else
 				roguelikebase.messagelog.addMessage "You run into a wall"
 				roguelikebase.stage.update()
@@ -186,8 +186,9 @@ exports.createPlayer = (roguelikebase) ->
 		roguelikebase.stage.update()
 		window.addEventListener "keydown", this
 
-	playerdata.playerturnover = ->
+	playerdata.playerTurnOver = ->
 		window.removeEventListener "keydown", this
+		@playerDataChanged()  # presumably the player did SOMETHING this turn
 		roguelikebase.stage.update()
 		roguelikebase.engine.unlock()
 
@@ -209,57 +210,81 @@ exports.createPlayer = (roguelikebase) ->
 			playerhatgraphic.visible = false
 
 	playerdata.eat = ->
+		edibleitems = (item for item in @inventory when item.basestats.itemtype is "food")
+		if edibleitems.length > 0
+			@eatFood edibleitems[0]
+		else
+			roguelikebase.messagelog.addMessage "You have nothing to eat!"
 
+	playerdata.eatFood = (food) ->
+			toeatindex = @inventory.indexOf food
+			@inventory.splice toeatindex,1
+			@health = Math.floor(@health + @maxhealth * food.basestats.healingfraction)
+			@health = @maxhealth if @health > @maxhealth
+			roguelikebase.messagelog.addMessage "You eat #{food.name}"
+			@playerDataChanged()
+			@playerTurnOver()
 
 	# initialize keyboard input
 	playerdata.handleEvent = (evt) ->
     	#console.log evt
 	    evt ||= window.event
 	    playeraction = null
-	    if evt.keyCode?
+	    if evt.ctrlKey and evt.keyCode is 90
+        	alert "Ctrl-Z"
+	    else if evt.keyCode?
 	    	# process as a keycode
 	    	#
 	    	# vi-style movement
 	    	#
-	    	if evt.keyCode is ROT.VK_H
-	    		playeraction = -> playerdata.step -1,0
-	    	else if evt.keyCode is ROT.VK_L
-	    		playeraction = -> playerdata.step 1,0
-	    	else if evt.keyCode is ROT.VK_K
-	    		playeraction = -> playerdata.step 0,-1
-	    	else if evt.keyCode is ROT.VK_J
-	    		playeraction = -> playerdata.step 0,1
+	    	if evt.keyCode is ROT.VK_H then playerdata.step -1,0
+	    	else if evt.keyCode is ROT.VK_L then playerdata.step 1,0
+	    	else if evt.keyCode is ROT.VK_K then playerdata.step 0,-1
+	    	else if evt.keyCode is ROT.VK_J then playerdata.step 0,1
 	    	# diagonals
-	    	else if evt.keyCode is ROT.VK_Y
-	    		playeraction = -> playerdata.step -1,-1
-	    	else if evt.keyCode is ROT.VK_U
-	    		playeraction = -> playerdata.step 1,-1
-	    	else if evt.keyCode is ROT.VK_B
-	    		playeraction = -> playerdata.step -1,1
-	    	else if evt.keyCode is ROT.VK_N
-	    		playeraction = -> playerdata.step 1,1
-	    	else if evt.keyCode is ROT.VK_E
-	    		playeraction = -> playerdata.eat()
-	    	if playeraction isnt null and playeraction()
-	    		@playerturnover()
-	    if evt.ctrlKey and evt.keyCode is 90
-        	alert "Ctrl-Z"
+	    	else if evt.keyCode is ROT.VK_Y then playerdata.step -1,-1
+	    	else if evt.keyCode is ROT.VK_U then playerdata.step 1,-1
+	    	else if evt.keyCode is ROT.VK_B then playerdata.step -1,1
+	    	else if evt.keyCode is ROT.VK_N then playerdata.step 1,1
+	    	else if evt.keyCode is ROT.VK_E then playerdata.eat()
+
+    playerdata.possiblyDisplayItemHelpText = (item) ->
+    	playerdata.showedhelpflags = [] unless playerdata.showedhelpflags?
+    	switch item.basestats.itemtype
+    		when "weapon"
+    			unless "weaponhelp" in playerdata.showedhelpflags
+    				roguelikebase.messagelog.addMessage "Click on a weapon in your inventory to equip it"
+    				playerdata.showedhelpflags.push "weaponhelp"
+    		when "armor"
+    			unless "armorhelp" in playerdata.showedhelpflags
+    				roguelikebase.messagelog.addMessage "Click on armor in your inventory to wear it"
+    				playerdata.showedhelpflags.push "armorhelp"
+    		when "hat"
+    			unless "hathelp" in playerdata.showedhelpflags
+    				roguelikebase.messagelog.addMessage "Click on a hat in your inventory to wear it"
+    				playerdata.showedhelpflags.push "hathelp"
+    		when "food"
+    			unless "foodhelp" in playerdata.showedhelpflags
+    				roguelikebase.messagelog.addMessage "Click on food in your inventory to eat it, or press 'e' to eat food"
+    				playerdata.showedhelpflags.push "foodhelp"
+
 
 	playerdata.pickupItem = (item) ->
 		@dungeon.removeItem item
 		item.pickedUpBy this
 		@inventory.push item
 		roguelikebase.messagelog.addMessage "You pick up #{item.name}"
-		@inventorywindow.inventorychanged()
-		return true # player's turn is over
+		@possiblyDisplayItemHelpText item
+		@playerDataChanged()
+		@playerTurnOver()
 
 	playerdata.dropItem = (item) ->
-		return true
+		@playerTurnOver()
 
 	playerdata.playerDataChanged = ->
+		@inventorywindow.inventorychanged()
 		@infowindow.playerInfoChanged()
 		@updatePlayerSprite()
-		roguelikebase.stage.update()
 
 	playerdata.equipItem = (item) ->
 		if item in @inventory
@@ -271,6 +296,7 @@ exports.createPlayer = (roguelikebase) ->
 				when "weapon" then @equipWeapon item
 				when "armor" then @equipArmor item
 				when "hat" then @equipHat item
+				when "food" then @eatFood item
 
 	playerdata.unequipItem = (item) ->
 		if item is @weapon then @unequipWeapon()
@@ -283,42 +309,42 @@ exports.createPlayer = (roguelikebase) ->
 		roguelikebase.messagelog.addMessage "You wield #{weapon.name}"
 		@weapon = weapon
 		weapon.equippedBy this
-		@playerDataChanged()
+		@playerTurnOver()
 
 	playerdata.unequipWeapon = ->
 		if @weapon?
 			@weapon.unequippedBy this
 			roguelikebase.messagelog.addMessage "You put away #{@weapon.name}"
 			@weapon = null
-			@playerDataChanged()
+			@playerTurnOver()
 
 	playerdata.equipArmor = (armor) ->
 		if @armor? then unequipArmor @armor
 		roguelikebase.messagelog.addMessage "You wear #{armor.name}"
 		@armor = armor
 		armor.equippedBy this
-		@playerDataChanged()
+		@playerTurnOver()
 
 	playerdata.unequipArmor = ->
 		if @armor?
 			@armor.unequippedBy this
 			roguelikebase.messagelog.addMessage "You take off #{@armor.name}"
 			@armor = null
-			@playerDataChanged()
+			@playerTurnOver()
 
 	playerdata.equipHat = (hat) ->
 		if @hat? then unequipHat @hat
 		roguelikebase.messagelog.addMessage "You put on #{hat.name}"
 		@hat = hat
 		hat.equippedBy this
-		@playerDataChanged()
+		@playerTurnOver()
 
 	playerdata.unequipHat = ->
 		if @hat?
 			@hat.unequippedBy this
 			roguelikebase.messagelog.addMessage "You take off #{@hat.name}"
 			@hat = null
-			@playerDataChanged()
+			@playerTurnOver()
 
 	
 
