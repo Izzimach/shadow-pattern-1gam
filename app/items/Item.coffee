@@ -3,6 +3,9 @@ ItemSpriteData = require 'items/ItemSpriteSheet'
 module.exports = class Item
 	constructor: (@basestats, @roguelikebase, name=null) ->
 		if name then @name = name else @name = @basestats.defaultname
+		@dungeon = null
+		@owner = null
+		@equipped = false
 		if basestats.spritename and basestats.spritename in ItemSpriteData.Names
 			@sprite = ItemSpriteData.createSprite basestats.spritename, roguelikebase
 
@@ -23,10 +26,22 @@ module.exports = class Item
 		@dungeon = null
 
 	pickedUpBy : (owner) ->
-		null
+		@owner = owner
+		@equipped = false
+		# enabled double-click action
+		@sprite.addEventListener "mousedown", this
 
 	droppedBy : (owner) ->
-		null
+		@owner = null
+		@equipped = false
+
+	equippedBy : (owner) ->
+		@owner = owner
+		@equipped = true
+
+	unequippedBy: (owner) ->
+		@owner = null
+		@equipped = false
 
 	moveToTile : (x,y) ->
 		@x = x
@@ -39,3 +54,12 @@ module.exports = class Item
 	checkIsVisible : () ->
 		currenttile = @dungeon.tiles.tiledata[@x][@y]
 		@sprite.visible = currenttile.visible if @sprite isnt null
+
+	handleEvent: (event) ->
+		console.log event
+		if @owner?
+			# equip the item. if it's already equipped, unequip it
+			if @equipped
+				@owner.unequipItem this
+			else
+				@owner.equipItem this

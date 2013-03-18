@@ -8,7 +8,9 @@ ItemSpriteData = {
 	"hat" : [0,8*32, 32,32, 0,16,16],
 	"jaunty hat" : [0, 8*32, 32,32, 0,16,16],
 
-	"chainmail" : [2*32, 6*32, 32,32, 0,16,16]
+	"chainmail" : [2*32, 6*32, 32,32, 0,16,16],
+
+	"banana" : [17*32,9*32, 32,32, 0,16,16]
 }
 ItemSpriteNames = (key for key of ItemSpriteData)
 ItemSpriteFrames = (ItemSpriteData[iconname] for iconname in ItemSpriteNames)

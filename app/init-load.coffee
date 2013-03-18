@@ -63,10 +63,12 @@ exports.start = ->
 		dungeon.addMonster monster, monsterstarttile.tilex, monsterstarttile.tiley
 
 		Item = require 'items/Item'
-		itemstats = (require 'items/ItemList').BasicSword
-		someitem = new Item itemstats, roguelikebase
-		itemstarttile = dungeon.pickFloorTile()
-		dungeon.addItem someitem, itemstarttile.tilex, itemstarttile.tiley
+		items = (require 'items/ItemList').allItems
+		for multi in [0...10]
+			itemstats = items[Math.floor(Math.random() * items.length)]
+			someitem = new Item itemstats, roguelikebase
+			itemstarttile = dungeon.pickFloorTile()
+			dungeon.addItem someitem, itemstarttile.tilex, itemstarttile.tiley
 
 		roguelikebase.messagelog = new createjs.Text "Argh!\nurgh", "Arial", "#08f"
 		roguelikebase.messagelog.messages = []

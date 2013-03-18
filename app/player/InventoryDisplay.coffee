@@ -32,8 +32,13 @@ module.exports = class InventoryDisplay
 
 		@roguelikebase.stage.addChild @sprite
 
+	currentdisplayeditems = []
 	inventorychanged: ->
+		# remove mouse click listeners from children
+		#for child in currentdisplayeditems
+		#	child.dragDropOff()
 		@items.removeAllChildren()
+		currentdisplayeditems = @player.inventory
 		for itemindex in [0...@player.inventory.length]
 			item = @player.inventory[itemindex]
 			itemx = @itemspacing * (itemindex % @tilesacross)
@@ -41,3 +46,4 @@ module.exports = class InventoryDisplay
 			@items.addChild item.sprite
 			item.sprite.x = itemx
 			item.sprite.y = itemy
+			#item.dragDropOn()

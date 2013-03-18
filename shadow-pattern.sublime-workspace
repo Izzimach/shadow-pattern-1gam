@@ -11,56 +11,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "app/items/Item.coffee",
-			"settings":
-			{
-				"buffer_size": 1183,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/items/ItemSpriteSheet.coffee",
-			"settings":
-			{
-				"buffer_size": 821,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/items/ItemList.coffee",
-			"settings":
-			{
-				"buffer_size": 580,
-				"line_ending": "Windows",
-				"name": "exports.BasicSword = {"
-			}
-		},
-		{
-			"file": "app/init-load.coffee",
-			"settings":
-			{
-				"buffer_size": 3746,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/player/player.coffee",
-			"settings":
-			{
-				"buffer_size": 7644,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/player/InventoryDisplay.coffee",
-			"settings":
-			{
-				"buffer_size": 1356,
-				"line_ending": "Windows",
-				"name": "module.exports = class InventoryDisplay"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -114,6 +64,15 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/assets/index.html",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/player/playerspritesheet.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/items/ItemSpriteSheet.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/player/PlayerInfoDisplay.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/init-load.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/player/InventoryDisplay.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/items/Item.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/items/ItemList.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/player/player.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/vendor/rot.js",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/CreatureList.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/Monster.coffee",
@@ -124,9 +83,7 @@
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/assets/images/rltiles-items.png",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/dungeontilemap.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/item.coffee",
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/init-load.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/MonsterSpriteSheet.coffee",
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/assets/index.html",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/playerspritesheet.js",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/Creature.coffee",
 		"/C/Users/Gary/AppData/Roaming/Sublime Text 2/Packages/Markdown Preview/sample.md",
@@ -186,172 +143,8 @@
 	"groups":
 	[
 		{
-			"selected": 5,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "app/items/Item.coffee",
-					"settings":
-					{
-						"buffer_size": 1183,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								169,
-								169
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "app/items/ItemSpriteSheet.coffee",
-					"settings":
-					{
-						"buffer_size": 821,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								289,
-								289
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "app/items/ItemList.coffee",
-					"settings":
-					{
-						"buffer_size": 580,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								438,
-								438
-							]
-						],
-						"settings":
-						{
-							"auto_name": "exports.BasicSword = {",
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "app/init-load.coffee",
-					"settings":
-					{
-						"buffer_size": 3746,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3190,
-								3190
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 788.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "app/player/player.coffee",
-					"settings":
-					{
-						"buffer_size": 7644,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7644,
-								7644
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 2748.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "app/player/InventoryDisplay.coffee",
-					"settings":
-					{
-						"buffer_size": 1356,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								430,
-								430
-							]
-						],
-						"settings":
-						{
-							"auto_name": "module.exports = class InventoryDisplay",
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],

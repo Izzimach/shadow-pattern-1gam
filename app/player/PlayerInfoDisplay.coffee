@@ -75,11 +75,11 @@ module.exports = class PlayerInfoDisplay
 		@sprite.addChild @healthtext
 		@sprite.addChild @healthbar
 
-		@playerinfochanged()
+		@playerInfoChanged()
 
 		@roguelikebase.stage.addChild @sprite
 
-	playerinfochanged: ->
+	playerInfoChanged: ->
 		@weaponslot.setItemSprite @player.weapon
 		@armorslot.setItemSprite @player.armor
 		@hatslot.setItemSprite @player.hat

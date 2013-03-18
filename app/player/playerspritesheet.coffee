@@ -22,13 +22,13 @@ exports.FrameData = {
 
 	# hats
 	"horned helmet" : [0,448, 16,16, 0,8,8],
+	"fancy hat" : [320,416, 16,16, 0,8,8],
 
 	# weapons
 	"battleaxe" : [0,320, 16,32, 0,8,16],
 	"black sword" : [16,256, 16,32, 0,8,16],
+	"sword" : [480,224, 16,32, 0,8,16],
+	"sai" : [464,224, 16,32, 0,8,16]
 
-	# shields/off-hands
-	"sword, offhand" : [480,224, 16,32, 0,8,16],
-	"sai, offhand" : [464,224, 16,32, 0,8,16]
 }
 

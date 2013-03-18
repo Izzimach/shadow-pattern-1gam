@@ -29,7 +29,7 @@ exports.createPlayer = (roguelikebase) ->
 	playercloakgraphic.visible = false
 
 	playerbodygraphic = new PlayerIcon
-	playerbodygraphic.setplayericon "human1 female"	
+	playerbodygraphic.setplayericon "human1 male"	
 
 	playerclothesgraphic = new PlayerIcon
 	playerclothesgraphic.setplayericon "chainmail shirt"
@@ -150,8 +150,8 @@ exports.createPlayer = (roguelikebase) ->
 			console.log monster
 			if monster
 				damageamount = @basestats.basedamage
-				if @weapon and @weapon.weapondamage
-					damageamount = @weapon.weapondamage
+				if @weapon? and @weapon.basestats.weapondamage > damageamount
+					damageamount = @weapon.basestats.weapondamage
 				damageamount = monster.applyDamage damageamount
 				roguelikebase.messagelog.addMessage "#{@name} attack #{monster.name} for #{damageamount} damage"
 				if monster.health < 0
@@ -164,16 +164,16 @@ exports.createPlayer = (roguelikebase) ->
 
 	playerdata.applyDamage = (amount) ->
 		# reduce damage by armor provided via items
-		if @weapon? and @weapon.providesarmor?
-			amount = amount - @weapon.providesarmor
-		if @armor? and @armor.providesarmor?
-			amount = amount - @armor.providesarmor
-		if @hat? and @hat.providesarmor?
-			amount = amount - @hat.providesarmor
+		if @weapon? and @weapon.basestats.providesarmor?
+			amount = amount - @weapon.basestats.providesarmor
+		if @armor? and @armor.basestats.providesarmor?
+			amount = amount - @armor.basestats.providesarmor
+		if @hat? and @hat.basestats.providesarmor?
+			amount = amount - @hat.basestats.providesarmor
 		if amount < 1
 			amount = 1
 		@health = @health - amount
-		@infowindow.playerinfochanged()
+		@infowindow.playerInfoChanged()
 		return amount
 
 	# for ROT.engine and ROT.scheduler
@@ -192,19 +192,24 @@ exports.createPlayer = (roguelikebase) ->
 		roguelikebase.engine.unlock()
 
 	playerdata.updatePlayerSprite = ->
-		if @weapon?
-			playerweapon1graphic.setplayericon @weapon.spritename
+		if @weapon? and @weapon.basestats.onplayerspritename?
+			playerweapon1graphic.setplayericon @weapon.basestats.onplayerspritename
+			playerweapon1graphic.visible = true
 		else
 			playerweapon1graphic.visible = false
 		# set default clothes as a brown robe if the player isn't wearing armor
-		if @armor?
-			playerclothesgraphic.setplayericon @armor.spritename
+		if @armor? and @armor.basestats.onplayerspritename?
+			playerclothesgraphic.setplayericon @armor.basestats.onplayerspritename
 		else
 			playerclothesgraphic.setplayericon "brown robes"
-		if @hat?
-			playerhatgraphic.setplayericon @hat.spritename
+		if @hat? and @hat.basestats.onplayerspritename?
+			playerhatgraphic.setplayericon @hat.basestats.onplayerspritename
+			playerhatgraphic.visible = true
 		else
 			playerhatgraphic.visible = false
+
+	playerdata.eat = ->
+
 
 	# initialize keyboard input
 	playerdata.handleEvent = (evt) ->
@@ -233,6 +238,8 @@ exports.createPlayer = (roguelikebase) ->
 	    		playeraction = -> playerdata.step -1,1
 	    	else if evt.keyCode is ROT.VK_N
 	    		playeraction = -> playerdata.step 1,1
+	    	else if evt.keyCode is ROT.VK_E
+	    		playeraction = -> playerdata.eat()
 	    	if playeraction isnt null and playeraction()
 	    		@playerturnover()
 	    if evt.ctrlKey and evt.keyCode is 90
@@ -245,6 +252,76 @@ exports.createPlayer = (roguelikebase) ->
 		roguelikebase.messagelog.addMessage "You pick up #{item.name}"
 		@inventorywindow.inventorychanged()
 		return true # player's turn is over
+
+	playerdata.dropItem = (item) ->
+		return true
+
+	playerdata.playerDataChanged = ->
+		@infowindow.playerInfoChanged()
+		@updatePlayerSprite()
+		roguelikebase.stage.update()
+
+	playerdata.equipItem = (item) ->
+		if item in @inventory
+			invindex = @inventory.indexOf item
+			@inventory.splice invindex,1
+
+			# which item type?
+			switch item.basestats.itemtype
+				when "weapon" then @equipWeapon item
+				when "armor" then @equipArmor item
+				when "hat" then @equipHat item
+
+	playerdata.unequipItem = (item) ->
+		if item is @weapon then @unequipWeapon()
+		if item is @armor then @unequipArmor()
+		if item is @hat then @unequipHat()
+
+	playerdata.equipWeapon = (weapon) ->
+		# unequip whatever we already equipped
+		if @weapon? then unequipWeapon @weapon
+		roguelikebase.messagelog.addMessage "You wield #{weapon.name}"
+		@weapon = weapon
+		weapon.equippedBy this
+		@playerDataChanged()
+
+	playerdata.unequipWeapon = ->
+		if @weapon?
+			@weapon.unequippedBy this
+			roguelikebase.messagelog.addMessage "You put away #{@weapon.name}"
+			@weapon = null
+			@playerDataChanged()
+
+	playerdata.equipArmor = (armor) ->
+		if @armor? then unequipArmor @armor
+		roguelikebase.messagelog.addMessage "You wear #{armor.name}"
+		@armor = armor
+		armor.equippedBy this
+		@playerDataChanged()
+
+	playerdata.unequipArmor = ->
+		if @armor?
+			@armor.unequippedBy this
+			roguelikebase.messagelog.addMessage "You take off #{@armor.name}"
+			@armor = null
+			@playerDataChanged()
+
+	playerdata.equipHat = (hat) ->
+		if @hat? then unequipHat @hat
+		roguelikebase.messagelog.addMessage "You put on #{hat.name}"
+		@hat = hat
+		hat.equippedBy this
+		@playerDataChanged()
+
+	playerdata.unequipHat = ->
+		if @hat?
+			@hat.unequippedBy this
+			roguelikebase.messagelog.addMessage "You take off #{@hat.name}"
+			@hat = null
+			@playerDataChanged()
+
+	
+
 
 	playerdata.updatePlayerSprite()
 	return playerdata
