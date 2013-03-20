@@ -40,7 +40,7 @@ module.exports = class Item
 		@equipped = true
 
 	unequippedBy: (owner) ->
-		@owner = null
+		@owner = owner
 		@equipped = false
 
 	moveToTile : (x,y) ->

@@ -4,8 +4,6 @@ exports.start = ->
 	roguelikebase = {}
 	roguelikebase.stage = new createjs.Stage canvas
 
-	roguelikebase.engine = new ROT.Engine()
-
 	manifest = [
 		{src:"images/rltiles-dungeon.png", id:"dungeonspritesheet"},
 		{src:"images/rltiles-items.png", id:"itemspritesheet"},
@@ -39,50 +37,12 @@ exports.start = ->
 		assets.images["monsters-alpha"] = chromakeymodule.chromaKeyImage assets.images["monsterspritesheet"], [71,108,108]
 		assets.images["items-alpha"] = chromakeymodule.chromaKeyImage assets.images["itemspritesheet"], [71,108,108]
 
-		dungeonmodule = require 'dungeon'
-		playermodule = require 'player/player'
+		roguelikebase.startGame = ->
+			gameinstance = new (require 'ShadowPatternInstance') roguelikebase
+			roguelikebase.stage.update()
+			roguelikebase.engine.start()
 
-		roguelikebase.stage.removeAllChildren()
-
-		dungeonview = new createjs.Container()
-		dungeonview.name = "dungeonview"
-		roguelikebase.stage.addChild dungeonview
-
-		dungeon = dungeonmodule.createDungeon roguelikebase
-		dungeonmodule.installDungeon roguelikebase, dungeon
-
-		player = playermodule.createPlayer roguelikebase
-		roguelikebase.player = player
-		playerstarttile = dungeon.upstairstile
-		dungeon.addPlayer player, playerstarttile.tilex, playerstarttile.tiley
-
-		Monster = require 'creatures/Monster'
-		creaturestats = (require 'creatures/CreatureList').DefaultCreature
-		monster = new Monster creaturestats, roguelikebase
-		monsterstarttile = dungeon.pickFloorTile()
-		dungeon.addMonster monster, monsterstarttile.tilex, monsterstarttile.tiley
-
-		Item = require 'items/Item'
-		items = (require 'items/ItemList').allItems
-		for multi in [0...10]
-			itemstats = items[Math.floor(Math.random() * items.length)]
-			someitem = new Item itemstats, roguelikebase
-			itemstarttile = dungeon.pickFloorTile()
-			dungeon.addItem someitem, itemstarttile.tilex, itemstarttile.tiley
-
-		roguelikebase.messagelog = new createjs.Text "Argh!\nurgh", "Arial", "#08f"
-		roguelikebase.messagelog.messages = []
-		roguelikebase.messagelog.x = 400
-		roguelikebase.messagelog.addMessage = (message) ->
-			if @messages.length > 10
-				@messages.splice 0,@messages.length-10
-			@messages.push message
-			@text = @messages.join "\n"
-		roguelikebase.stage.addChild roguelikebase.messagelog
-
-		roguelikebase.stage.update()
-
-		roguelikebase.engine.start()
+		roguelikebase.startGame()
 
 	addLoadingText = (stage) ->
 		loadingtext = new createjs.Text "Loading."

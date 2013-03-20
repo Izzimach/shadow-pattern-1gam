@@ -4,7 +4,27 @@ exports.BasicSword = {
 	defaultname: "a sword",
 	description: "Just your everyday sword",
 	itemtype : "weapon",
-	weapondamage: 5,
+	weapondamage: 3,
+	enchantable : true
+}
+
+exports.SpikedClub = {
+	spritename : "spiked club",
+	onplayerspritename : "spiked club",
+	defaultname: "a club",
+	description: "A big spiky club",
+	itemtype : "weapon",
+	weapondamage: 2,
+	enchantable : true
+}
+
+exports.BasicAxe = {
+	spritename : "big axe",
+	onplayerspritename : "axe",
+	defaultname: "an axe",
+	description: "Just your everyday axe",
+	itemtype : "weapon",
+	weapondamage: 4,
 	enchantable : true
 }
 
@@ -15,6 +35,16 @@ exports.Chainmail = {
 	description: "A simple coat made of metal rings",
 	itemtype : "armor",
 	providesarmor : 2,
+	enchantable : true
+}
+
+exports.Leather = {
+	spritename : "leather armor",
+	onplayerspritename : "leather armor",
+	defaultname: "Leather Armor",
+	description: "Hardened leather armor",
+	itemtype : "armor",
+	providesarmor : 1,
 	enchantable : true
 }
 
@@ -31,14 +61,26 @@ exports.JauntyHat = {
 exports.Banana = {
 	spritename: "banana",
 	defaultname: "a banana",
-	description: "A tasty banana heals half of your health",
+	description: "A tasty banana heals most of your health",
+	itemtype : "food",
+	healingfraction : 0.8
+}
+
+exports.Strawberry = {
+	spritename: "strawberry",
+	defaultname: "a strawberry",
+	description: "A tasty strawberry heals half of your health",
 	itemtype : "food",
 	healingfraction : 0.5
 }
 
 exports.allItems = [
 	exports.BasicSword,
+	exports.BasicAxe,
+	exports.SpikedClub,
 	exports.Chainmail,
+	exports.Leather,
 	exports.JauntyHat,
-	exports.Banana
+	exports.Banana,
+	exports.Strawberry
 ]

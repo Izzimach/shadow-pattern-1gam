@@ -31,6 +31,10 @@ exports.createPlayer = (roguelikebase) ->
 	playerbodygraphic = new PlayerIcon
 	playerbodygraphic.setplayericon "human1 male"	
 
+	playerpantsgraphic = new PlayerIcon
+	playerpantsgraphic.setplayericon "brown pants"
+	playerpantsgraphic.y = 8
+
 	playerclothesgraphic = new PlayerIcon
 	playerclothesgraphic.setplayericon "chainmail shirt"
 	#playerclothesgraphic.x = 8
@@ -59,6 +63,7 @@ exports.createPlayer = (roguelikebase) ->
 	compositeplayergraphic.addChild playercloakgraphic
 	compositeplayergraphic.addChild playerbodygraphic
 	compositeplayergraphic.addChild playershoesgraphic
+	compositeplayergraphic.addChild playerpantsgraphic
 	compositeplayergraphic.addChild playerclothesgraphic
 	compositeplayergraphic.addChild playerhatgraphic
 	compositeplayergraphic.addChild playerweapon1graphic
@@ -184,7 +189,10 @@ exports.createPlayer = (roguelikebase) ->
 		roguelikebase.engine.lock()
 		@dungeon.updateVisibleObjects()
 		roguelikebase.stage.update()
-		window.addEventListener "keydown", this
+		if @health < 0
+			roguelikebase.gameinstance.gameOver()
+		else
+			window.addEventListener "keydown", this
 
 	playerdata.playerTurnOver = ->
 		window.removeEventListener "keydown", this
@@ -212,18 +220,22 @@ exports.createPlayer = (roguelikebase) ->
 	playerdata.eat = ->
 		edibleitems = (item for item in @inventory when item.basestats.itemtype is "food")
 		if edibleitems.length > 0
-			@eatFood edibleitems[0]
+			toeat = edibleitems[0]
+			toeatindex = @inventory.indexOf toeat
+			@inventory.splice toeatindex,1
+			@eatFood toeat
 		else
 			roguelikebase.messagelog.addMessage "You have nothing to eat!"
 
 	playerdata.eatFood = (food) ->
-			toeatindex = @inventory.indexOf food
-			@inventory.splice toeatindex,1
 			@health = Math.floor(@health + @maxhealth * food.basestats.healingfraction)
 			@health = @maxhealth if @health > @maxhealth
 			roguelikebase.messagelog.addMessage "You eat #{food.name}"
 			@playerDataChanged()
 			@playerTurnOver()
+
+	playerdata.wield = ->
+
 
 	# initialize keyboard input
 	playerdata.handleEvent = (evt) ->
@@ -246,7 +258,20 @@ exports.createPlayer = (roguelikebase) ->
 	    	else if evt.keyCode is ROT.VK_U then playerdata.step 1,-1
 	    	else if evt.keyCode is ROT.VK_B then playerdata.step -1,1
 	    	else if evt.keyCode is ROT.VK_N then playerdata.step 1,1
+	    	else if evt.keyCode is ROT.VK_PERIOD then @playerTurnOver()
+	    	# numpad movement
+	    	else if evt.keyCode is ROT.VK_1 then playerdata.step -1,1
+	    	else if evt.keyCode is ROT.VK_2 then playerdata.step 0,1
+	    	else if evt.keyCode is ROT.VK_3 then playerdata.step 1,1
+	    	else if evt.keyCode is ROT.VK_4 then playerdata.step -1,0
+	    	else if evt.keyCode is ROT.VK_5 then @playerTurnOver()
+	    	else if evt.keyCode is ROT.VK_6 then playerdata.step 1,0
+	    	else if evt.keyCode is ROT.VK_7 then playerdata.step -1,-1
+	    	else if evt.keyCode is ROT.VK_8 then playerdata.step 0,-1
+	    	else if evt.keyCode is ROT.VK_9 then playerdata.step 1,-1
+	    	# eat and wield
 	    	else if evt.keyCode is ROT.VK_E then playerdata.eat()
+	    	else if evt.keyCode is ROT.VK_W then playerdata.wield()
 
     playerdata.possiblyDisplayItemHelpText = (item) ->
     	playerdata.showedhelpflags = [] unless playerdata.showedhelpflags?
@@ -305,46 +330,49 @@ exports.createPlayer = (roguelikebase) ->
 
 	playerdata.equipWeapon = (weapon) ->
 		# unequip whatever we already equipped
-		if @weapon? then unequipWeapon @weapon
+		if @weapon? then @unequipWeapon false
 		roguelikebase.messagelog.addMessage "You wield #{weapon.name}"
 		@weapon = weapon
 		weapon.equippedBy this
 		@playerTurnOver()
 
-	playerdata.unequipWeapon = ->
+	playerdata.unequipWeapon = (endturn) ->
 		if @weapon?
 			@weapon.unequippedBy this
 			roguelikebase.messagelog.addMessage "You put away #{@weapon.name}"
+			@inventory.push @weapon
 			@weapon = null
-			@playerTurnOver()
+			@playerTurnOver() if endturn
 
 	playerdata.equipArmor = (armor) ->
-		if @armor? then unequipArmor @armor
+		if @armor? then @unequipArmor false
 		roguelikebase.messagelog.addMessage "You wear #{armor.name}"
 		@armor = armor
 		armor.equippedBy this
 		@playerTurnOver()
 
-	playerdata.unequipArmor = ->
+	playerdata.unequipArmor = (endturn) ->
 		if @armor?
 			@armor.unequippedBy this
 			roguelikebase.messagelog.addMessage "You take off #{@armor.name}"
+			@inventory.push @armor
 			@armor = null
-			@playerTurnOver()
+			@playerTurnOver() if endturn
 
 	playerdata.equipHat = (hat) ->
-		if @hat? then unequipHat @hat
+		if @hat? then @unequipHat false
 		roguelikebase.messagelog.addMessage "You put on #{hat.name}"
 		@hat = hat
 		hat.equippedBy this
 		@playerTurnOver()
 
-	playerdata.unequipHat = ->
+	playerdata.unequipHat = (endturn) ->
 		if @hat?
 			@hat.unequippedBy this
 			roguelikebase.messagelog.addMessage "You take off #{@hat.name}"
+			@inventory.push @hat
 			@hat = null
-			@playerTurnOver()
+			@playerTurnOver() if endturn
 
 	
 
