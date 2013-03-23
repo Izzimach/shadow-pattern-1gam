@@ -15,7 +15,7 @@ module.exports = class Creature
 
 	addedToDungeon: (dungeon, x, y) ->
 		@dungeon = dungeon
-		if dungeon.dungeonview isnt null and @sprite isnt null
+		if dungeon.dungeonview? and @sprite?
 			dungeon.dungeonview.addChild @sprite
 		# not all monsters have lights
 		#@lightID = @dungeon.registerLight []
@@ -34,7 +34,7 @@ module.exports = class Creature
 		@y = y
 		@recomputeVisibility()
 		@dungeon.visibilitychanged = true
-		if @sprite isnt null
+		if @sprite?
 			@sprite.x = x * @dungeon.tilewidth
 			@sprite.y = y * @dungeon.tileheight
 
@@ -53,7 +53,7 @@ module.exports = class Creature
 	step : (dx,dy) ->
 		newx = @x + dx
 		newy = @y + dy
-		if @dungeon.isPassable newx,newy
+		if @dungeon.isPassable newx,newy, false
 			@moveToTile newx,newy
 
 	act : ->
@@ -62,6 +62,8 @@ module.exports = class Creature
 	getSpeed: -> @basestats.speed
 
 	applyDamage: (damageamount) ->
+		damageamount = damageamount - @basestats.armor
+		damageamount = 1 if damageamount < 1
 		@health = @health - damageamount
 		if @health < 0
 			@dungeon.removeCreature this

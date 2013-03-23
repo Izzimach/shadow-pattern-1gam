@@ -1,7 +1,9 @@
 dungeonmodule = require 'dungeon'
 playermodule = require 'player/player'
 Monster = require 'creatures/Monster'
+CreatureList = require 'creatures/CreatureList'
 Item = require 'items/Item'
+ItemList = require 'items/ItemList'
 
 
 
@@ -10,11 +12,14 @@ module.exports = class ShadowPatternInstance
 		roguelikebase.gameinstance = this
 		roguelikebase.stage.removeAllChildren()
 
+		@phasespeed = 3
+
 		dungeonview = new createjs.Container()
 		dungeonview.name = "dungeonview"
 		roguelikebase.stage.addChild dungeonview
 
 		roguelikebase.engine = new ROT.Engine()
+		roguelikebase.engine.addActor this
 
 		dungeon = dungeonmodule.createDungeon roguelikebase
 		dungeonmodule.installDungeon roguelikebase, dungeon
@@ -25,15 +30,17 @@ module.exports = class ShadowPatternInstance
 		dungeon.addPlayer player, playerstarttile.tilex, playerstarttile.tiley
 
 		creatures = (require 'creatures/CreatureList').allCreatures
-		for multi in [1..3]
-			creaturestats = creatures[Math.floor(Math.random() * creatures.length)]
+		firstlevelcreatures = (creature for creature in creatures when creature.level is 1)
+		for multi in [1..2]
+			creaturestats = firstlevelcreatures[Math.floor(Math.random() * firstlevelcreatures.length)]
 			somemonster = new Monster creaturestats, roguelikebase
 			monsterstarttile = dungeon.pickFloorTile()
 			dungeon.addMonster somemonster, monsterstarttile.tilex, monsterstarttile.tiley
 
 		items = (require 'items/ItemList').allItems
+		firstlevelitems = (item for item in items when item.level is 1)
 		for multi in [0...10]
-			itemstats = items[Math.floor(Math.random() * items.length)]
+			itemstats = firstlevelitems[Math.floor(Math.random() * firstlevelitems.length)]
 			someitem = new Item itemstats, roguelikebase
 			itemstarttile = dungeon.pickFloorTile()
 			dungeon.addItem someitem, itemstarttile.tilex, itemstarttile.tiley
@@ -79,6 +86,211 @@ module.exports = class ShadowPatternInstance
 		@roguelikebase.stage.addChild gameoverwindow
 
 		@roguelikebase.stage.update()
+
+	# shadow pattern events happen every so often, and accelerate as the player progresses
+
+	getSpeed: -> @phasespeed
+
+	act: ->
+		# create a new room?
+		@tryToCreateRoom()
+		@phasespeed = 2 + Math.floor @roguelikebase.player.maxhealth / 10
+
+	tryToCreateRoom : ->
+		phasearea = @pickPhaseInArea()
+		if phasearea isnt null
+			effectivelevel = Math.floor @roguelikebase.player.maxhealth / 10
+			@createRoom phasearea, effectivelevel
+			@roguelikebase.messagelog.addMessage @pickMessageForPhasing effectivelevel
+
+	createRoom : (phasearea, level) ->
+		[x,y,w,h] = phasearea
+		[floortile, walltile] = @pickTilesForRoom level
+		@fillTiles x,y,w,h,walltile
+		@fillTiles x+1,y+1,w-2,h-2,floortile
+		@connectAreaToDungeon phasearea,floortile,walltile
+		@wipeMonstersInArea phasearea
+		@wipeItemsInArea phasearea
+
+		@addItemsToArea phasearea,level
+		@addMonstersToArea phasearea,level
+
+
+	pickTilesForRoom : (level) ->
+		switch Math.floor(level)
+			when 0,1 then ["floor", "wall"]
+			when 3,4 then  ["flamefloor", "flamewall"]
+			when 2 then  ["floor", "darkerwall"]
+			when 5,6 then  ["icefloor", "icewall"]
+			when 7 then  ["steelfloor", "gemwall"]
+			else ["floor","wall"]
+
+	pickMessageForPhasing: (level) ->
+		switch Math.floor(level)
+			when 0,1 then "You hear the sound of rock and stone shifting."
+			when 3,4 then "You feel a sudden hot draft."
+			when 2 then "You feel shadows moving and shifting in the surrounding stone."
+			when 5,6 then "You feel a cold breeze blowing past."
+			when 7 then "You hear sharp clanging noises."
+
+	pickPhaseInArea : ->
+		dungeon = @roguelikebase.dungeon
+		areawidth = Math.floor(Math.random() * 5 + 5)
+		areaheight = Math.floor(Math.random() * 5 + 5)
+		x = Math.floor(Math.random() * (dungeon.width - areawidth))
+		y = Math.floor(Math.random() * (dungeon.height - areaheight))
+
+		# make sure it doesn't overlap the visible area
+		visibletiles = dungeon.tiles.visibletiles
+		firstx = visibletiles[0][0]
+		firsty = visibletiles[0][1]
+		visibleminx = visibletiles.reduce ((a,b) -> Math.min(a,b[0])), firstx
+		visiblemaxx = visibletiles.reduce ((a,b) -> Math.max(a,b[0])), firstx
+		visibleminy = visibletiles.reduce ((a,b) -> Math.min(a,b[1])), firsty
+		visiblemaxy = visibletiles.reduce ((a,b) -> Math.max(a,b[1])), firsty
+
+		console.log visibletiles
+		console.log [x,y,areawidth,areaheight]
+		console.log [visibleminx, visibleminy, visiblemaxx, visiblemaxy]
+
+		if (visibleminx > x+areawidth) or (visiblemaxx < x) or (visibleminy > y+areaheight) or (visiblemaxy < y)
+			# no overlap
+			return [x,y,areawidth,areaheight]
+
+		# overlap, return null
+		return null
+
+	fillTiles : (x,y,w,h, tileset) ->
+		tiles = @roguelikebase.dungeon.tiles
+		for putx in [x...x+w]
+			for puty in [y...y+h]
+				curtile = tiles.tiledata[putx][puty]
+				curtile.settile tileset
+				curtile.explored = false
+
+	isTileInArea : (phasearea, tilex, tiley) ->
+		[x,y,w,h] = phasearea
+		return (tilex >=x and tilex < x+w and tiley >=y and tiley < y+h)
+
+
+	wipeMonstersInArea : (phasearea) ->
+		dungeon = @roguelikebase.dungeon
+		monsters = dungeon.monsters
+		monsterstowipe = (m for m in monsters when @isTileInArea phasearea,m.x,m.y)
+		for m in monsterstowipe
+			dungeon.removeMonster m
+
+	wipeItemsInArea:  (phasearea) ->
+		dungeon = @roguelikebase.dungeon
+		items = dungeon.items
+		itemstowipe = (i for i in items when @isTileInArea phasearea,i.x,i.y)
+		for i in itemstowipe
+			dungeon.removeItem i
+
+	addItemsToArea: (phasearea,level) ->
+		itemlist = ItemList.allItems
+		for multiadd in [0...3]
+			itemstats = itemlist[Math.floor(ROT.RNG.getUniform()*itemlist.length)]
+			leveldelta = Math.abs(itemstats.level - level)
+			if (leveldelta < 1) or ((leveldelta <2) and (Math.random() < 0.2))
+				opentile = @pickOpenTileInArea phasearea
+				if opentile?
+					freshitem = new Item itemstats, @roguelikebase
+					@roguelikebase.dungeon.addItem freshitem, opentile.tilex, opentile.tiley
+
+	addMonstersToArea: (phasearea,level) ->
+		monsterlist = CreatureList.allCreatures
+		for multiadd in [0...3]
+			monsterstats = monsterlist[Math.floor(Math.random() * monsterlist.length)]
+			leveldelta = Math.abs(monsterstats.level - level)
+			# only allow monsters at the right level, sometimes allow monsters near in level
+			if (leveldelta < 1) or ((leveldelta < 2) and (Math.random() < 0.2))
+				# add monster
+				opentile = @pickOpenTileInArea phasearea
+				if opentile?
+					freshmonster = new Monster monsterstats, @roguelikebase
+					@roguelikebase.dungeon.addMonster freshmonster, opentile.tilex, opentile.tiley
+
+	pickOpenTileInArea : (phasearea) ->
+		[x,y,w,h] = phasearea
+		dungeon = @roguelikebase.dungeon
+		dungeontiles = dungeon.tiles
+		# start at a random location and scan for the first
+		# found floor tile
+		startx = Math.floor ROT.RNG.getUniform() * w
+		starty = Math.floor ROT.RNG.getUniform() * h
+		for offsetx in [0...w]
+			for offsety in [0...h]
+				testx = (startx + offsety) % w
+				testy = (starty + offsety) % h
+				finalx = x + testx
+				finaly = y + testy
+				if dungeontiles.tiledata[finalx][finaly].passable
+					return dungeontiles.tiledata[finalx][finaly]
+		# no floor tile found!?!?!?
+		return null
+
+	connectAreaToDungeon: (phasearea, floortile, walltile) ->
+		# connect up multiple passages
+		for multi in [0..3]
+			connecttotile = @pickTileConnectedToPlayer()
+			starttile = @pickOpenTileInArea phasearea
+			@buildHallway starttile, connecttotile, floortile, walltile
+
+	pickTileConnectedToPlayer : ->
+		dungeon = @roguelikebase.dungeon
+		# randomly try open tiles until we find one that can reach the player
+		testtile = dungeon.pickFloorTile()
+		while not @canReachTile testtile
+			testtile = dungeon.pickFloorTile()
+		return testtile
+
+	canReachTile: (testtile) ->
+		return false if testtile is null
+		player = @roguelikebase.player
+		pathtiles = []
+		passableCallback = (x,y) => @roguelikebase.dungeon.isPassable x,y,true # ignore monsters blocking the path
+		pathfinder = new ROT.Path.AStar player.x,player.y, passableCallback
+		pathfinder.compute testtile.tilex, testtile.tiley, (x,y) -> pathtiles.push [x,y]
+		# if there is a path in pathtiles then the square is reachable
+		return (pathtiles.length > 0)
+
+	buildHallway: (starttile, endtile, floortiletype, walltiletype) ->
+		startx = starttile.tilex
+		starty = starttile.tiley
+		endx = endtile.tilex
+		endy = endtile.tiley
+		# generate an array of [x,y] coordinates that describe the hallway path
+		hallwaytiles = [ [startx,starty] ]
+		while startx isnt endx or starty isnt endy
+			if startx < endx then startx = startx + 1
+			else if startx > endx then startx = startx - 1
+			else if starty < endy then starty = starty + 1
+			else if starty > endy then starty = starty - 1
+			hallwaytiles.push [startx,starty]
+		# now the path is determined. first lay out the walls. We skip
+		# the first and last tile
+		if hallwaytiles.length > 2
+			for tileindex in [1...hallwaytiles.length-1]
+				tile = hallwaytiles[tileindex]
+				@putHallwayWalls tile[0], tile[1], walltiletype
+		for tilecoords in hallwaytiles
+			tile = @roguelikebase.dungeon.tiles.tiledata[tilecoords[0]][tilecoords[1]]
+			tile.settile floortiletype
+			tile.explored = false
+
+	putHallwayWalls: (x,y, walltiletype) ->
+		dungeontiledata = @roguelikebase.dungeon.tiles.tiledata
+		for dx in [-1..1]
+			for dy in [-1..1]
+				tile = dungeontiledata[x+dx][y+dy]
+				# replace only walls with the new wall type
+				tile.settile walltiletype unless tile.passable
+				tile.explored = false
+
+
+
+
 
 
 

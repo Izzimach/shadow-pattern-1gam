@@ -16,12 +16,24 @@ exports.createDungeonTilemap = (dungeonwidth, dungeonheight, tilewidth, tileheig
 		"wall" : 18,
 		"door" : 19,
 		"upstairs" : 43,
-		"downstairs" : 39
-	}
-	passabletilenames = ["floor", "upstairs", "downstairs"]
-	transparenttilenames = ["floor", "upstairs", "downstairs"]
+		"downstairs" : 39,
 
-	settiletype = (typename) ->
+		# upper level floor/wall tiles
+		"icefloor" : 29,
+		"icewall" : 13,
+
+		"flamefloor" : 27,
+		"flamewall" : 6,
+
+		"steelfloor" : 20,
+		"gemwall": 21,
+
+		"darkerwall" : 2
+	}
+	passabletilenames = ["floor", "icefloor", "flamefloor", "steelfloor", "upstairs", "downstairs"]
+	transparenttilenames = ["floor", "icefloor", "flamefloor", "steelfloor", "upstairs", "downstairs"]
+
+	setTileType = (typename) ->
 		@tiletypename = typename
 		@spriteframe = tilenames[typename]
 		@passable = (typename in passabletilenames)
@@ -34,7 +46,7 @@ exports.createDungeonTilemap = (dungeonwidth, dungeonheight, tilewidth, tileheig
 			lightlevel:x+y,
 			tiletypename : "wall",
 			spriteframe: tilenames["wall"],
-			settile : settiletype,
+			settile : setTileType,
 			passable:false,
 			transparent:false,
 			tilex: x,
@@ -91,13 +103,13 @@ exports.createDungeonTilemap = (dungeonwidth, dungeonheight, tilewidth, tileheig
 	dungeon.isVisible = ->
 		return this.visible and spritesheet.complete
 
-	visibletiles = []
+	dungeon.visibletiles = []
 	
 	dungeon.setVisibility = (fresh_visibletiles) ->
 		# first reset old visible tiles
-		@applyToTiles visibletiles, (tile) -> tile.visible = false
+		@applyToTiles @visibletiles, (tile) -> tile.visible = false
 		@applyToTiles fresh_visibletiles, (tile) -> tile.visible = true
-		visibletiles = fresh_visibletiles
+		@visibletiles = fresh_visibletiles
 
 	dungeon.markAsExplored = (exploredtiles) ->
 		this.applyToTiles exploredtiles, (tile) -> tile.explored = true

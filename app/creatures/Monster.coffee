@@ -8,7 +8,7 @@ module.exports = class Monster extends Creature
 		super dungeon,x,y
 		@target = null
 		@passableCallback = (x,y) =>
-			true if x == @x and y == @y
+			return true if x == @x and y == @y
 			@dungeon.isPassable x,y,true # ignore monsters blocking the path
 
 	act: ->
@@ -24,7 +24,8 @@ module.exports = class Monster extends Creature
 				if nextx is @target.x and nexty is @target.y
 					@attackTarget @target
 				else
-					@moveToTile nextx,nexty
+					if @dungeon.isPassable nextx,nexty,false
+						@moveToTile nextx,nexty
 		else
 			@target = @roguelikebase.player
 

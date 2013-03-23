@@ -95,7 +95,7 @@ exports.createDungeon = (roguelikebase) ->
 			for offsety in [0...dungeon.height]
 				testx = (startx + offsety) % @width
 				testy = (starty + offsety) % @height
-				if @tiles.tiledata[testx][testy].tiletypename is "floor"
+				if @tiles.tiledata[testx][testy].passable
 					return @tiles.tiledata[testx][testy]
 		# no floor tile found!?!?!?
 		return null
@@ -116,17 +116,17 @@ exports.createDungeon = (roguelikebase) ->
 		return visibletiles
 
 	dungeon.updateVisibleObjects = ->
-		return if not @visibilitychanged
-
-		# update visibility of monsters
-		monster.checkIsVisible() for monster in @monsters
-		# update visibility of items
-		item.checkIsVisible() for item in @items
-		@visibilitychanged = false
+		if @visibilitychanged
+			# update visibility of monsters
+			monster.checkIsVisible() for monster in @monsters
+			# update visibility of items
+			item.checkIsVisible() for item in @items
+			@visibilitychanged = false
 
 	dungeon.setVisibility = (x) ->
 		tilemap.setVisibility x
 		@visibilitychanged = true
+
 	dungeon.markAsExplored = (x) -> tilemap.markAsExplored x
 	dungeon.registerLight = (x) -> tilemap.registerLight x
 	dungeon.updateLight = (id, x) -> tilemap.updateLight id,x
@@ -137,7 +137,7 @@ exports.createDungeon = (roguelikebase) ->
 			return monster if monster.x is x and monster.y is y
 		null
 
-	dungeon.isPassable = (x,y,ignoremonsters) -> (@tiles.isTilePassable x,y) and (ignoremonsters or (@monsterAt x,y) is null)
+	dungeon.isPassable = (x,y,ignoremonsters=false) -> (@tiles.isTilePassable x,y) and (ignoremonsters or (@monsterAt x,y) is null)
 
 	dungeon.placeStairs()
 

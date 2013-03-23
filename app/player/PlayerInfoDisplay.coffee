@@ -49,8 +49,25 @@ module.exports = class PlayerInfoDisplay
 		@sprite.addChild @armorslot
 		@sprite.addChild @hatslot
 
+		createStat = (name,x,y) ->
+			statSprite = new createjs.Text name, "Arial", "#fff"
+			statSprite.x = x
+			statSprite.y = y
+			statSprite.updateText = (value) ->
+				@text = "#{name}: #{value}"
+			return statSprite
+
+
+		@damagestat = createStat "Damage", 0, slotsize*5
+		@armorstat = createStat "Armor", 0, slotsize*5.5
+		@speedstat = createStat "Speed", 0, slotsize*6
+
+		@sprite.addChild @damagestat
+		@sprite.addChild @armorstat
+		@sprite.addChild @speedstat
+
 		@healthtext = new createjs.Text "Health", "Arial", "#80ff80"
-		@healthtext.y = slotsize * 5
+		@healthtext.y = slotsize * 7
 		@healthtext.updateHealthtext = (player) ->
 			if player.health < player.maxhealth/2
 				@color = "#ff8080"
@@ -59,7 +76,7 @@ module.exports = class PlayerInfoDisplay
 			@text = "Health: #{player.health}/#{player.maxhealth}"
 
 		@healthbar = new createjs.Shape()
-		@healthbar.y = slotsize * 5.5
+		@healthbar.y = slotsize * 7.5
 		@healthbar.updateHealthbar = (player) ->
 			@graphics.clear()
 			healthfraction = player.health / player.maxhealth
@@ -83,9 +100,10 @@ module.exports = class PlayerInfoDisplay
 		@weaponslot.setItemSprite @player.weapon
 		@armorslot.setItemSprite @player.armor
 		@hatslot.setItemSprite @player.hat
+		
+		@damagestat.updateText @player.getDamage()
+		@armorstat.updateText @player.getArmorAmount()
+		@speedstat.updateText @player.getSpeed()
 
 		@healthtext.updateHealthtext @player
 		@healthbar.updateHealthbar @player
-
-
-

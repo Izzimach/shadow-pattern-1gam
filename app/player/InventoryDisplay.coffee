@@ -7,7 +7,7 @@ module.exports = class InventoryDisplay
 		@sprite.y = y
 
 		@tilesacross = 4
-		@tilesdown = 4
+		@tilesdown = 5
 		@itemsize = (require 'items/ItemSpriteSheet').itemtilesize
 		@itemhalfsize = @itemsize / 2
 		@inventorydisplaypadding = 4

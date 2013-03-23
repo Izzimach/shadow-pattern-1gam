@@ -56,7 +56,7 @@ module.exports = class Item
 		@sprite.visible = currenttile.visible if @sprite isnt null
 
 	handleEvent: (event) ->
-		console.log event
+		#console.log event
 		if @owner?
 			# equip the item. if it's already equipped, unequip it
 			if @equipped
