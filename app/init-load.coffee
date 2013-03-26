@@ -61,3 +61,4 @@ exports.start = ->
 	preload.addEventListener "fileload", loadprocessor
 	preload.loadManifest manifest
 
+ 

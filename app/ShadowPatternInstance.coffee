@@ -9,61 +9,44 @@ ItemList = require 'items/ItemList'
 
 module.exports = class ShadowPatternInstance
 	constructor: (@roguelikebase) ->
-		roguelikebase.gameinstance = this
-		roguelikebase.stage.removeAllChildren()
-
-		@phasespeed = 3
+		@roguelikebase.gameinstance = this
+		@roguelikebase.stage.removeAllChildren()
 
 		dungeonview = new createjs.Container()
 		dungeonview.name = "dungeonview"
-		roguelikebase.stage.addChild dungeonview
+		@roguelikebase.stage.addChild dungeonview
 
-		roguelikebase.engine = new ROT.Engine()
-		roguelikebase.engine.addActor this
-
-		dungeon = dungeonmodule.createDungeon roguelikebase
-		dungeonmodule.installDungeon roguelikebase, dungeon
-
+		@roguelikebase.engine = new ROT.Engine()
+		
 		player = playermodule.createPlayer roguelikebase
-		roguelikebase.player = player
-		playerstarttile = dungeon.upstairstile
-		dungeon.addPlayer player, playerstarttile.tilex, playerstarttile.tiley
+		@roguelikebase.player = player
 
-		creatures = (require 'creatures/CreatureList').allCreatures
-		firstlevelcreatures = (creature for creature in creatures when creature.level is 1)
-		for multi in [1..2]
-			creaturestats = firstlevelcreatures[Math.floor(Math.random() * firstlevelcreatures.length)]
-			somemonster = new Monster creaturestats, roguelikebase
-			monsterstarttile = dungeon.pickFloorTile()
-			dungeon.addMonster somemonster, monsterstarttile.tilex, monsterstarttile.tiley
+		@nextDungeon()
 
-		items = (require 'items/ItemList').allItems
-		firstlevelitems = (item for item in items when item.level is 1)
-		for multi in [0...10]
-			itemstats = firstlevelitems[Math.floor(Math.random() * firstlevelitems.length)]
-			someitem = new Item itemstats, roguelikebase
-			itemstarttile = dungeon.pickFloorTile()
-			dungeon.addItem someitem, itemstarttile.tilex, itemstarttile.tiley
-
-		roguelikebase.messagelog = new createjs.Text "Welcome to Shadow Pattern!", "15px Arial", "#ddd"
-		roguelikebase.messagelog.lineHeight = 14 #roguelikebase.messagelog.getMeasuredHeight()
-		roguelikebase.messagelog.messages = []
-		roguelikebase.messagelog.x = 200
-		roguelikebase.messagelog.addMessage = (message) ->
+		@roguelikebase.messagelog = new createjs.Text "Welcome to Shadow Pattern!", "15px Arial", "#ddd"
+		@roguelikebase.messagelog.lineHeight = 14 #roguelikebase.messagelog.getMeasuredHeight()
+		@roguelikebase.messagelog.messages = []
+		@roguelikebase.messagelog.x = 200
+		@roguelikebase.messagelog.addMessage = (message) ->
 			if @messages.length > 10
 				@messages.splice 0,@messages.length-10
 			@messages.push message
 			@text = @messages.join "\n"
-		roguelikebase.stage.addChild roguelikebase.messagelog
+		@roguelikebase.stage.addChild roguelikebase.messagelog
 
-		return roguelikebase.gameinstance
+		return this
 
-	gameOver: ->
+	gameOver: (winninged) ->
 		gameoverwindow = new createjs.Container
 		gameoverwindow.x = @roguelikebase.stage.canvas.width/2
 		gameoverwindow.y = @roguelikebase.stage.canvas.height/2
 
-		gameovertext = new createjs.Text "Game Over!", "bold 40px Arial", "#fff"
+		if winninged
+			gameovertext = "You Win!"
+		else
+			gameovertext = "You have died."
+
+		gameovertext = new createjs.Text gameovertext, "bold 40px Arial", "#fff"
 		gameovertext.textAlign = "center"
 		gameovertext.shadow = new createjs.Shadow "#000",5,5,10
 		gameovertext.x = 0 # @roguelikebase.stage.canvas.width/2
@@ -87,6 +70,50 @@ module.exports = class ShadowPatternInstance
 
 		@roguelikebase.stage.update()
 
+	nextDungeon: ->
+		if @roguelikebase.dungeon? and @roguelikebase.player?
+			@roguelikebase.dungeon.removePlayer @roguelikebase.player
+
+		@roguelikebase.engine.clear()
+		@phasespeed = 3
+		@roguelikebase.engine.addActor this
+
+		dungeon = dungeonmodule.createDungeon @roguelikebase
+		dungeonmodule.installDungeon @roguelikebase, dungeon
+
+		playerstarttile = dungeon.pickFloorTile()
+		dungeon.addPlayer @roguelikebase.player, playerstarttile.tilex, playerstarttile.tiley
+
+		effectivelevel = @roguelikebase.player.effectiveLevel()
+
+		creatures = (require 'creatures/CreatureList').allCreatures
+		firstlevelcreatures = (creature for creature in creatures when creature.level <= effectivelevel)
+		for multi in [1..2]
+			creaturestats = firstlevelcreatures[Math.floor(Math.random() * firstlevelcreatures.length)]
+			somemonster = new Monster creaturestats, @roguelikebase
+			monsterstarttile = dungeon.pickFloorTile()
+			dungeon.addMonster somemonster, monsterstarttile.tilex, monsterstarttile.tiley
+
+		items = (require 'items/ItemList').allItems
+		firstlevelitems = (item for item in items when item.level <= effectivelevel)
+		for multi in [0...10]
+			itemstats = firstlevelitems[Math.floor(Math.random() * firstlevelitems.length)]
+			someitem = new Item itemstats, @roguelikebase
+			itemstarttile = dungeon.pickFloorTile()
+			dungeon.addItem someitem, itemstarttile.tilex, itemstarttile.tiley
+
+		# add the wizard if the player level is high enough
+		if effectivelevel >= 7
+			wizardstarttile = dungeon.pickFloorTile()
+			wizardstats = (require 'creatures/CreatureList').wizard
+			wizard = new Monster wizardstats, @roguelikebase
+			wizard.awake = true
+			dungeon.addMonster wizard, wizardstarttile.tilex, wizardstarttile.tiley
+			@roguelikebase.messagelog.addMessage "Beware! The evil wizard is on this level!"
+
+		return dungeon
+
+
 	# shadow pattern events happen every so often, and accelerate as the player progresses
 
 	getSpeed: -> @phasespeed
@@ -94,12 +121,12 @@ module.exports = class ShadowPatternInstance
 	act: ->
 		# create a new room?
 		@tryToCreateRoom()
-		@phasespeed = 2 + Math.floor @roguelikebase.player.maxhealth / 10
+		@phasespeed = @phasespeed + 1 if @phasespeed < 10
 
 	tryToCreateRoom : ->
 		phasearea = @pickPhaseInArea()
 		if phasearea isnt null
-			effectivelevel = Math.floor @roguelikebase.player.maxhealth / 10
+			effectivelevel = @roguelikebase.player.effectiveLevel()
 			@createRoom phasearea, effectivelevel
 			@roguelikebase.messagelog.addMessage @pickMessageForPhasing effectivelevel
 
@@ -108,10 +135,13 @@ module.exports = class ShadowPatternInstance
 		[floortile, walltile] = @pickTilesForRoom level
 		@fillTiles x,y,w,h,walltile
 		@fillTiles x+1,y+1,w-2,h-2,floortile
+		if @phasespeed is 10
+			# add downward stairs
+			stairtile = @pickOpenTileInArea phasearea
+			stairtile.settile "downstairs"
 		@connectAreaToDungeon phasearea,floortile,walltile
 		@wipeMonstersInArea phasearea
 		@wipeItemsInArea phasearea
-
 		@addItemsToArea phasearea,level
 		@addMonstersToArea phasearea,level
 
@@ -119,19 +149,19 @@ module.exports = class ShadowPatternInstance
 	pickTilesForRoom : (level) ->
 		switch Math.floor(level)
 			when 0,1 then ["floor", "wall"]
-			when 3,4 then  ["flamefloor", "flamewall"]
-			when 2 then  ["floor", "darkerwall"]
-			when 5,6 then  ["icefloor", "icewall"]
-			when 7 then  ["steelfloor", "gemwall"]
+			when 2,3 then  ["floor", "darkerwall"]
+			when 4,5 then  ["flamefloor", "flamewall"]
+			when 6,7 then  ["icefloor", "icewall"]
+			when 8 then  ["steelfloor", "gemwall"]
 			else ["floor","wall"]
 
 	pickMessageForPhasing: (level) ->
 		switch Math.floor(level)
 			when 0,1 then "You hear the sound of rock and stone shifting."
-			when 3,4 then "You feel a sudden hot draft."
-			when 2 then "You feel shadows moving and shifting in the surrounding stone."
-			when 5,6 then "You feel a cold breeze blowing past."
-			when 7 then "You hear sharp clanging noises."
+			when 2,3 then "You feel shadows moving and shifting in the surrounding stone."
+			when 4,5 then "You feel a sudden hot draft."
+			when 6,7 then "You feel a cold breeze blowing past."
+			when 8 then "You hear sharp clanging noises."
 
 	pickPhaseInArea : ->
 		dungeon = @roguelikebase.dungeon
@@ -149,9 +179,9 @@ module.exports = class ShadowPatternInstance
 		visibleminy = visibletiles.reduce ((a,b) -> Math.min(a,b[1])), firsty
 		visiblemaxy = visibletiles.reduce ((a,b) -> Math.max(a,b[1])), firsty
 
-		console.log visibletiles
-		console.log [x,y,areawidth,areaheight]
-		console.log [visibleminx, visibleminy, visiblemaxx, visiblemaxy]
+		#console.log visibletiles
+		#console.log [x,y,areawidth,areaheight]
+		#console.log [visibleminx, visibleminy, visiblemaxx, visiblemaxy]
 
 		if (visibleminx > x+areawidth) or (visiblemaxx < x) or (visibleminy > y+areaheight) or (visiblemaxy < y)
 			# no overlap
@@ -178,7 +208,9 @@ module.exports = class ShadowPatternInstance
 		monsters = dungeon.monsters
 		monsterstowipe = (m for m in monsters when @isTileInArea phasearea,m.x,m.y)
 		for m in monsterstowipe
-			dungeon.removeMonster m
+			# don't delete the wizard!
+			if m.name isnt "The Evil Wizard"
+				dungeon.removeMonster m
 
 	wipeItemsInArea:  (phasearea) ->
 		dungeon = @roguelikebase.dungeon

@@ -10,6 +10,7 @@ module.exports = class Creature
 		if name then @name = name else @name = @basestats.defaultname
 		@visibletiles = []
 		@health = @basestats.health
+		@awake = (ROT.RNG.getUniform() < 0.8)
 		if basestats.spritename and basestats.spritename in MonsterSpriteData.Names
 			@sprite = MonsterSpriteData.createSprite basestats.spritename, roguelikebase
 
@@ -62,6 +63,9 @@ module.exports = class Creature
 	getSpeed: -> @basestats.speed
 
 	applyDamage: (damageamount) ->
+		if not @awake
+			@awake = true
+			@roguelikebase.messagelog.addMessage "#{@name} wakes up!"
 		damageamount = damageamount - @basestats.armor
 		damageamount = 1 if damageamount < 1
 		@health = @health - damageamount

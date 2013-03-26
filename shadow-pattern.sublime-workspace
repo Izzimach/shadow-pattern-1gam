@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"length",
+				"length-10"
+			],
+			[
 				"pass",
 				"passabletilenames"
 			]
@@ -12,42 +16,10 @@
 	"buffers":
 	[
 		{
-			"file": "app/ShadowPatternInstance.coffee",
-			"settings":
-			{
-				"buffer_size": 8406,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/dungeontilemap.coffee",
-			"settings":
-			{
-				"buffer_size": 5003,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "app/player/player.coffee",
 			"settings":
 			{
-				"buffer_size": 13520,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/creatures/Creature.coffee",
-			"settings":
-			{
-				"buffer_size": 1912,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/dungeon.coffee",
-			"settings":
-			{
-				"buffer_size": 4994,
+				"buffer_size": 14819,
 				"line_ending": "Windows"
 			}
 		}
@@ -104,22 +76,22 @@
 	},
 	"file_history":
 	[
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/Monster.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/dungeon.coffee",
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/items/ItemList.coffee",
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/CreatureList.coffee",
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/player/player.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/dungeontilemap.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/ShadowPatternInstance.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/Monster.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/Creature.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/items/Item.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/init-load.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/player/player.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/player/PlayerInfoDisplay.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/MonsterSpriteSheet.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/CreatureList.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/items/ItemList.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/player/playerspritesheet.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/items/ItemSpriteSheet.coffee",
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/MonsterSpriteSheet.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/player/InventoryDisplay.coffee",
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/dungeontilemap.coffee",
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/init-load.coffee",
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/items/Item.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/assets/index.html",
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/Creature.coffee",
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/player/PlayerInfoDisplay.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/vendor/rot.js",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/playerspritesheet.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/player.coffee",
@@ -157,6 +129,14 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"puthallwaywalls",
+			"pickopentileinarea",
+			"picktileconnect",
+			"armor",
+			"amount",
+			"armor",
+			"@@roguelikebase",
+			"roguelikebase",
 			"addmonster",
 			"settiletype",
 			"console.log",
@@ -186,6 +166,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"@roguelikebase"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -201,76 +182,18 @@
 			[
 				{
 					"buffer": 0,
-					"file": "app/ShadowPatternInstance.coffee",
-					"settings":
-					{
-						"buffer_size": 8406,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								8332,
-								8332
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 2664.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "app/dungeontilemap.coffee",
-					"settings":
-					{
-						"buffer_size": 5003,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1069,
-								1069
-							],
-							[
-								1427,
-								1427
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 462.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "app/player/player.coffee",
 					"settings":
 					{
-						"buffer_size": 13520,
+						"buffer_size": 14819,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7971,
-								7982
+								9559,
+								9559
 							]
 						],
 						"settings":
@@ -279,61 +202,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3092.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "app/creatures/Creature.coffee",
-					"settings":
-					{
-						"buffer_size": 1912,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "app/dungeon.coffee",
-					"settings":
-					{
-						"buffer_size": 4994,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1446,
-								1456
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 644.0,
+						"translation.y": 3780.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

@@ -107,6 +107,7 @@ exports.createDungeon = (roguelikebase) ->
 		@downstairstile.settile "downstairs"
 
 	visibletest = (x,y) -> tilemap.isTileTransparent(x,y)
+
 	FOValgorithm = new ROT.FOV.PreciseShadowcasting visibletest
 
 	dungeon.computeVisibility = (x,y, r) ->
@@ -139,7 +140,7 @@ exports.createDungeon = (roguelikebase) ->
 
 	dungeon.isPassable = (x,y,ignoremonsters=false) -> (@tiles.isTilePassable x,y) and (ignoremonsters or (@monsterAt x,y) is null)
 
-	dungeon.placeStairs()
+	#dungeon.placeStairs()
 
 	return dungeon
 

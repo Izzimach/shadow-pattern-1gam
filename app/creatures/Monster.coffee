@@ -27,7 +27,7 @@ module.exports = class Monster extends Creature
 					if @dungeon.isPassable nextx,nexty,false
 						@moveToTile nextx,nexty
 		else
-			@target = @roguelikebase.player
+			@target = @roguelikebase.player if @awake
 
 	attackTarget: (target) ->
 		damageamount = @target.applyDamage @basestats.basedamage

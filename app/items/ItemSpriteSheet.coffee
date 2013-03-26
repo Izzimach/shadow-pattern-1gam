@@ -8,6 +8,7 @@ ItemSpriteData = {
 	"scimitar" : [3*32,2*32, 32,32, 0,16,16],
 	"dark sword" : [11*32,2*32, 32,32, 0,16,16],
 	"halberd" : [7*32, 3*32, 32,32, 0,16,16],
+	"spear" : [6*32,3*32, 32,32, 0,16,16],
 
 
 	"hat" : [0,8*32, 32,32, 0,16,16],
@@ -25,7 +26,11 @@ ItemSpriteData = {
 	"banana" : [17*32,9*32, 32,32, 0,16,16],
 	"strawberry" : [18*32,9*32, 32,32, 0,16,16],
 	"grapes" : [1*32, 10*32, 32,32, 0,16,16],
-	"cheese" : [5*32, 10*32, 32,32, 0,16,16]
+	"pear" : [8*32, 9*32, 32,32, 0,16,16],
+
+	"cheese" : [5*32, 10*32, 32,32, 0,16,16],
+	"bacon" : [4*32,10*32, 32,32, 0,16,16],
+	"sausage" : [6*32,10*32, 32,32, 0,16,16],
 }
 ItemSpriteNames = (key for key of ItemSpriteData)
 ItemSpriteFrames = (ItemSpriteData[iconname] for iconname in ItemSpriteNames)

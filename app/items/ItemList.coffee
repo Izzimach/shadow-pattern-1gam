@@ -53,16 +53,29 @@ exports.Scimitar = {
 	level:4
 }
 
+exports.Spear = {
+	spritename : "spear",
+	onplayerspritename : "spear",
+	defaultname: "a polearm",
+	description: "A point on a big stick",
+	itemtype : "weapon",
+	weapondamage: 10,
+	providesarmor: 1,
+	enchantable : true,
+	level: 5
+}
+
+
 exports.Halberd = {
 	spritename : "halberd",
 	onplayerspritename : "halberd",
 	defaultname: "a polearm",
 	description: "A blade on a big stick",
 	itemtype : "weapon",
-	weapondamage: 9,
+	weapondamage: 13,
 	providesarmor: 1,
 	enchantable : true,
-	level: 5
+	level: 6
 }
 
 exports.BlackSword = {
@@ -71,9 +84,9 @@ exports.BlackSword = {
 	defaultname: "an obsidian sword",
 	description: "A magically crafted sword made of obsidian",
 	itemtype : "weapon",
-	weapondamage: 14,
+	weapondamage: 16,
 	enchantable : true,
-	level: 6
+	level: 7
 }
 
 
@@ -169,15 +182,6 @@ exports.DragonHelm = {
 	level: 7
 }
 
-exports.Banana = {
-	spritename: "banana",
-	defaultname: "a banana",
-	description: "A tasty banana heals most of your health",
-	itemtype : "food",
-	healingfraction : 0.8,
-	level: 4
-}
-
 exports.Strawberry = {
 	spritename: "strawberry",
 	defaultname: "a strawberry",
@@ -187,30 +191,68 @@ exports.Strawberry = {
 	level: 1
 }
 
+exports.Cheese = {
+	spritename: "cheese",
+	defaultname: "some cheese",
+	description: "Thank goodness it's not the stinky kind",
+	itemtype : "food",
+	healingfraction : 0.6,
+	level: 2
+}
+
 exports.Grapes = {
 	spritename: "grapes",
 	defaultname: "some grapes",
 	description: "Grapes are good for you",
 	itemtype : "food",
 	healingfraction : 0.6,
-	level: 2
+	level: 3
 }
 
-exports.Cheese = {
-	spritename: "cheese",
-	defaultname: "some cheese",
-	description: "Thank goodness it's not the stinky kind",
+exports.Bacon = {
+	spritename: "bacon",
+	defaultname: "some bacon",
+	description: "Nice and crispy",
 	itemtype : "food",
 	healingfraction : 0.7,
-	level: 3
+	level: 4
+}
+
+exports.Pear = {
+	spritename: "pear",
+	defaultname: "a pear",
+	description: "A tasty pear heals most of your health",
+	itemtype : "food",
+	healingfraction : 0.7,
+	level: 5
+}
+
+
+exports.Sausage = {
+	spritename: "sausage",
+	defaultname: "some sausage",
+	description: "You don't want to know how it was made",
+	itemtype : "food",
+	healingfraction : 0.8,
+	level: 6
+}
+
+exports.Banana = {
+	spritename: "banana",
+	defaultname: "a banana",
+	description: "A tasty banana heals most of your health",
+	itemtype : "food",
+	healingfraction : 0.8,
+	level: 7
 }
 
 exports.allItems = [
 	exports.Dagger,
+	exports.SpikedClub,
+	exports.BasicAxe,
 	exports.BasicSword,
 	exports.Scimitar,
-	exports.BasicAxe,
-	exports.SpikedClub,
+	exports.Spear,
 	exports.Halberd,
 	exports.BlackSword,
 
@@ -227,5 +269,8 @@ exports.allItems = [
 	exports.Banana,
 	exports.Strawberry,
 	exports.Grapes,
-	exports.Cheese
+	exports.Cheese,
+	exports.Bacon,
+	exports.Sausage,
+	exports.Pear,
 ]

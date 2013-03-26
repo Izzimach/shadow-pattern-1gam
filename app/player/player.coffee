@@ -148,6 +148,8 @@ exports.createPlayer = (@roguelikebase) ->
 					pickupitems.push item
 			for pickupme in pickupitems
 				@pickupItemNoTurnOver pickupme
+			if @dungeon.tiles.tiledata[newx][newy].tiletypename is "downstairs"
+				@possiblyDisplayHelp "downstairshelp", "Press '>' to descend the stairs"
 			@playerTurnOver()
 		else
 			monster = @dungeon.monsterAt newx,newy
@@ -204,18 +206,41 @@ exports.createPlayer = (@roguelikebase) ->
 			armoramount = armoramount + @hat.basestats.providesarmor
 		return armoramount
 
+	# special handler for printable character presses
+	keypresshandler = (event) ->
+		key = event.keyCode || event.which
+		keychar = String.fromCharCode(key)
+		console.log keychar
+		if keychar is ">"
+			playerdata.descend()
+		#
+		# vi-style movement
+		#
+		else if keychar is "h" then playerdata.step -1,0
+		else if keychar is "l" then playerdata.step 1,0
+		else if keychar is "k" then playerdata.step 0,-1
+		else if keychar is "j" then playerdata.step 0,1
+		# diagonals
+		else if keychar is "y" then playerdata.step -1,-1
+		else if keychar is "u" then playerdata.step 1,-1
+		else if keychar is "b" then playerdata.step -1,1
+		else if keychar is "n" then playerdata.step 1,1
+		else if keychar is "." then playerdata.playerTurnOver()
+
 	playerdata.act = ->
 		# halt the engine, and wait for keyboard input
 		@roguelikebase.engine.lock()
 		@dungeon.updateVisibleObjects()
 		@roguelikebase.stage.update()
 		if @health < 0
-			@roguelikebase.gameinstance.gameOver()
+			@roguelikebase.gameinstance.gameOver false
 		else
 			window.addEventListener "keydown", this
+			window.addEventListener "keypress", keypresshandler
 
 	playerdata.playerTurnOver = ->
 		window.removeEventListener "keydown", this
+		window.removeEventListener "keypress", keypresshandler
 		@playerDataChanged()  # presumably the player did SOMETHING this turn
 		@roguelikebase.stage.update()
 		@roguelikebase.engine.unlock()
@@ -256,30 +281,28 @@ exports.createPlayer = (@roguelikebase) ->
 
 	playerdata.wield = ->
 
+	playerdata.descend = ->
+		# are we on stairs? then descend
+		if @dungeon.tiles.tiledata[@x][@y].tiletypename is "downstairs"
+			@roguelikebase.gameinstance.nextDungeon()
+			@roguelikebase.stage.update()
+		else
+			@roguelikebase.messagelog.addMessage "There are no stairs here to descend"
+			@roguelikebase.stage.update()
+
+	playerdata.effectiveLevel = ->
+		return Math.floor(@maxhealth / 10)
+
 	# initialize keyboard input
 	playerdata.handleEvent = (evt) ->
     	#console.log evt
 	    evt ||= window.event
-	    playeraction = null
 	    if evt.ctrlKey and evt.keyCode is 90
         	alert "Ctrl-Z"
 	    else if evt.keyCode?
 	    	# process as a keycode
-	    	#
-	    	# vi-style movement
-	    	#
-	    	if evt.keyCode is ROT.VK_H then playerdata.step -1,0
-	    	else if evt.keyCode is ROT.VK_L then playerdata.step 1,0
-	    	else if evt.keyCode is ROT.VK_K then playerdata.step 0,-1
-	    	else if evt.keyCode is ROT.VK_J then playerdata.step 0,1
-	    	# diagonals
-	    	else if evt.keyCode is ROT.VK_Y then playerdata.step -1,-1
-	    	else if evt.keyCode is ROT.VK_U then playerdata.step 1,-1
-	    	else if evt.keyCode is ROT.VK_B then playerdata.step -1,1
-	    	else if evt.keyCode is ROT.VK_N then playerdata.step 1,1
-	    	else if evt.keyCode is ROT.VK_PERIOD then @playerTurnOver()
 	    	# numpad movement
-	    	else if evt.keyCode is ROT.VK_NUMPAD1 then playerdata.step -1,1
+	    	if evt.keyCode is ROT.VK_NUMPAD1 then playerdata.step -1,1
 	    	else if evt.keyCode is ROT.VK_NUMPAD2 then playerdata.step 0,1
 	    	else if evt.keyCode is ROT.VK_NUMPAD3 then playerdata.step 1,1
 	    	else if evt.keyCode is ROT.VK_NUMPAD4 then playerdata.step -1,0
@@ -302,24 +325,22 @@ exports.createPlayer = (@roguelikebase) ->
 	    	else if evt.keyCode is ROT.VK_W then playerdata.wield()
 
     playerdata.possiblyDisplayItemHelpText = (item) ->
-    	playerdata.showedhelpflags = [] unless playerdata.showedhelpflags?
     	switch item.basestats.itemtype
     		when "weapon"
-    			unless "weaponhelp" in playerdata.showedhelpflags
-    				@roguelikebase.messagelog.addMessage "Click on a weapon in your inventory to equip it"
-    				playerdata.showedhelpflags.push "weaponhelp"
+    			@possiblyDisplayHelp "weaponhelp", "Click on a weapon in your inventory to equip it"
     		when "armor"
-    			unless "armorhelp" in playerdata.showedhelpflags
-    				@roguelikebase.messagelog.addMessage "Click on armor in your inventory to wear it"
-    				playerdata.showedhelpflags.push "armorhelp"
+    			@possiblyDisplayHelp "armorhelp", "Click on armor in your inventory to wear it"
     		when "hat"
-    			unless "hathelp" in playerdata.showedhelpflags
-    				@roguelikebase.messagelog.addMessage "Click on a hat in your inventory to wear it"
-    				playerdata.showedhelpflags.push "hathelp"
+    			@possiblyDisplayHelp "hathelp", "Click on a hat in your inventory to wear it"
     		when "food"
-    			unless "foodhelp" in playerdata.showedhelpflags
-    				@roguelikebase.messagelog.addMessage "Click on food in your inventory to eat it, or press 'e' to eat food"
-    				playerdata.showedhelpflags.push "foodhelp"
+    			@possiblyDisplayHelp "foodhelp", "Click on food in your inventory to eat it, or press 'e' to eat food"
+
+	playerdata.possiblyDisplayHelp = (flagname, helptext) ->
+		@showedhelpflags = [] unless @showedhelpflags?
+		unless flagname in @showedhelpflags
+			@roguelikebase.messagelog.addMessage helptext
+			@showedhelpflags.push flagname
+
 
 	playerdata.pickupItemNoTurnOver = (item) ->
 		@dungeon.removeItem item
