@@ -19,7 +19,71 @@
 			"file": "app/player/player.coffee",
 			"settings":
 			{
-				"buffer_size": 14819,
+				"buffer_size": 15018,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/ShadowPatternInstance.coffee",
+			"settings":
+			{
+				"buffer_size": 11868,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/creatures/Monster.coffee",
+			"settings":
+			{
+				"buffer_size": 1230,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/items/ItemSpriteSheet.coffee",
+			"settings":
+			{
+				"buffer_size": 1704,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/player/playerspritesheet.coffee",
+			"settings":
+			{
+				"buffer_size": 1328,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/creatures/MonsterSpriteSheet.coffee",
+			"settings":
+			{
+				"buffer_size": 1116,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/dungeon.coffee",
+			"settings":
+			{
+				"buffer_size": 4975,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/dungeontilemap.coffee",
+			"settings":
+			{
+				"buffer_size": 5003,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/assets/index.html",
+			"settings":
+			{
+				"buffer_size": 827,
 				"line_ending": "Windows"
 			}
 		}
@@ -76,6 +140,11 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/items/ItemList.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/CreatureList.coffee",
+		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/config.coffee",
+		"/C/Users/Gary/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/C/Users/Gary/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/dungeon.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/dungeontilemap.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/ShadowPatternInstance.coffee",
@@ -86,8 +155,6 @@
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/player/player.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/player/PlayerInfoDisplay.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/MonsterSpriteSheet.coffee",
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/creatures/CreatureList.coffee",
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/items/ItemList.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/player/playerspritesheet.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/items/ItemSpriteSheet.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/player/InventoryDisplay.coffee",
@@ -107,7 +174,6 @@
 		"/C/Users/Gary/Documents/Company/Projects/simplestrat/src-browser/simplestrat/preloader.cljs",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/public/js/shadowpattern.js",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/app/assets/images/rltiles-player.png",
-		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/config.coffee",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/vendor/crafty.js",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/.gitignore",
 		"/C/Users/Gary/Documents/Company/Projects/shadow-pattern-1gam/public/shadowpattern.html",
@@ -129,6 +195,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"getarmor",
 			"puthallwaywalls",
 			"pickopentileinarea",
 			"picktileconnect",
@@ -177,7 +244,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 8,
 			"sheets":
 			[
 				{
@@ -185,15 +252,15 @@
 					"file": "app/player/player.coffee",
 					"settings":
 					{
-						"buffer_size": 14819,
+						"buffer_size": 15018,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								9559,
-								9559
+								3806,
+								3806
 							]
 						],
 						"settings":
@@ -202,7 +269,224 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3780.0,
+						"translation.y": 1397.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/ShadowPatternInstance.coffee",
+					"settings":
+					{
+						"buffer_size": 11868,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4259,
+								4259
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1370.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/creatures/Monster.coffee",
+					"settings":
+					{
+						"buffer_size": 1230,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/items/ItemSpriteSheet.coffee",
+					"settings":
+					{
+						"buffer_size": 1704,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								996,
+								996
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "app/player/playerspritesheet.coffee",
+					"settings":
+					{
+						"buffer_size": 1328,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1303,
+								1303
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 95.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "app/creatures/MonsterSpriteSheet.coffee",
+					"settings":
+					{
+						"buffer_size": 1116,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								555,
+								555
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "app/dungeon.coffee",
+					"settings":
+					{
+						"buffer_size": 4975,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2968,
+								2968
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1230.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "app/dungeontilemap.coffee",
+					"settings":
+					{
+						"buffer_size": 5003,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3868,
+								3868
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1746.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "app/assets/index.html",
+					"settings":
+					{
+						"buffer_size": 827,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								810,
+								810
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

@@ -22,3 +22,12 @@ exports.config =
 
     templates:
       joinTo: 'js/templates.js'
+  
+  plugins:
+    uglify:
+      mangle: false
+      compress:
+        global_defs:
+          DEBUG: false
+
+

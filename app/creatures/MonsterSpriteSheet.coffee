@@ -10,7 +10,8 @@ MonsterSpriteData = {
 	"stone golem" : [18*32,10*32, 32,32, 0,16,16],
 	"green troll" : [12*32, 9*32, 32,32, 0,16,16],
 	"fire elemental" : [2*32,0, 32,32, 0,16,16],
-	"white dragon" : [18*32,5*32, 32,32, 0,16,16]
+	"white dragon" : [18*32,5*32, 32,32, 0,16,16],
+	"wizard dude" : [7*32,0, 32,32, 0,16,16]
 }
 
 MonsterSpriteNames = (key for key of MonsterSpriteData)

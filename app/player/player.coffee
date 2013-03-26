@@ -163,6 +163,8 @@ exports.createPlayer = (@roguelikebase) ->
 					# no XP; instead bump player's health
 					@maxhealth = @maxhealth + 3
 					@health = @health + 3
+					if monster.basestats.finalboss? and monster.basestats.finalboss
+						@roguelikebase.gameinstance.gameOver true # we winned!
 
 				@playerTurnOver()
 			else
@@ -197,7 +199,10 @@ exports.createPlayer = (@roguelikebase) ->
 			return @basestats.basedamage # punching damage w/out weapon
 
 	playerdata.getArmorAmount = ->
-		armoramount = 0
+		if @basestats.armor?
+			armoramount = @basestats.armor
+		else
+			armoramount = 0
 		if @weapon? and @weapon.basestats.providesarmor?
 			armoramount = armoramount + @weapon.basestats.providesarmor
 		if @armor? and @armor.basestats.providesarmor?

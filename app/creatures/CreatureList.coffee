@@ -35,7 +35,7 @@ exports.Gargoyle =
 	defaultname: "A red gargoyle"
 	speed: 130
 	health: 9
-	armor: 2
+	armor: 1
 	basedamage: 3
 	visualrange: 5
 	level: 3
@@ -66,7 +66,7 @@ exports.WhiteDragon =
 	defaultname: "A white dragon"
 	speed: 100
 	health: 20
-	armor: 7
+	armor: 6
 	basedamage: 10
 	visualrange: 5
 	level: 6
@@ -94,7 +94,7 @@ exports.Golem =
 	spritename: "stone golem"
 
 exports.Wizard =
-	defaultname: "Evil Wizard Dude"
+	defaultname: "The Evil Wizard"
 	speed: 100
 	health : 35
 	armor: 9
@@ -102,6 +102,7 @@ exports.Wizard =
 	visualrange: 5
 	level: 9
 	spritename: "wizard dude"
+	finalboss: true
 
 # default player stats
 

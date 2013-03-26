@@ -105,12 +105,14 @@ module.exports = class ShadowPatternInstance
 		# add the wizard if the player level is high enough
 		if effectivelevel >= 7
 			wizardstarttile = dungeon.pickFloorTile()
-			wizardstats = (require 'creatures/CreatureList').wizard
+			wizardstats = (require 'creatures/CreatureList').Wizard
 			wizard = new Monster wizardstats, @roguelikebase
 			wizard.awake = true
 			dungeon.addMonster wizard, wizardstarttile.tilex, wizardstarttile.tiley
 			@roguelikebase.messagelog.addMessage "Beware! The evil wizard is on this level!"
 
+		@roguelikebase.player.recomputeVisibility()
+		@roguelikebase.dungeon.updateVisibleObjects()		
 		return dungeon
 
 

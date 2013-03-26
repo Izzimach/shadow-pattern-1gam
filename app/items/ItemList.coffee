@@ -56,7 +56,7 @@ exports.Scimitar = {
 exports.Spear = {
 	spritename : "spear",
 	onplayerspritename : "spear",
-	defaultname: "a polearm",
+	defaultname: "a spear",
 	description: "A point on a big stick",
 	itemtype : "weapon",
 	weapondamage: 10,
@@ -80,7 +80,7 @@ exports.Halberd = {
 
 exports.BlackSword = {
 	spritename : "dark sword",
-	onplayerspritename : "",
+	onplayerspritename : "black sword",
 	defaultname: "an obsidian sword",
 	description: "A magically crafted sword made of obsidian",
 	itemtype : "weapon",
