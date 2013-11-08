@@ -3,6 +3,8 @@ shadow-pattern-1gam
 
 Shadow Pattern is a Roguelike game written using Javascript for the One Game A Month challenge.
 
+![Play Sample Image](http://i.imgur.com/eXRt9uu.png)
+
 ## To Build and Play
 Shadow Pattern uses the [brunch](http://brunch.io) build tool, which depends on [node.js](http://nodejs.org)
 
@@ -18,6 +20,4 @@ the results are placed into the /public directory. You may need to run a http se
 use [node-static](https://github.com/cloudhead/node-static) or simply run the server built into brunch:
 
 	brunch watch --server
-
-## Adding abilities, items, and monsters
 
